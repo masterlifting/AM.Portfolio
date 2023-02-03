@@ -1,0 +1,24 @@
+[submodule "submodules/Net.Shared.Persistence"]
+	path = submodules/Net.Shared.Persistence
+	url = https://github.com/masterlifting/Net.Shared.Persistence
+	branch = feature-issue_5-designing
+[submodule "submodules/Net.Shared.Queues"]
+	path = submodules/Net.Shared.Queues
+	url = https://github.com/masterlifting/Net.Shared.Queues
+	branch = feature-issue_1-designing
+[submodule "submodules/Net.Shared.Documents"]
+	path = submodules/Net.Shared.Documents
+	url = https://github.com/masterlifting/Net.Shared.Documents
+	branch = feature-issue_1-designing
+[submodule "submodules/Net.Shared.Web"]
+	path = submodules/Net.Shared.Web
+	url = https://github.com/masterlifting/Net.Shared.Web
+	branch = feature-issue_1-designing
+[submodule "submodules/Net.Shared.Models"]
+	path = submodules/Net.Shared.Models
+	url = https://github.com/masterlifting/Net.Shared.Models
+	branch = feature-issue_1-designing
+[submodule "submodules/Net.Shared.Extensions"]
+	path = submodules/Net.Shared.Extensions
+	url = https://github.com/masterlifting/Net.Shared.Extensions
+	branch = feature-issue_1-designing
