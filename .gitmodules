@@ -24,7 +24,7 @@
 	branch = feature-issue_1-designing
 [submodule "submodules/Net.Shared.Background"]
 	path = submodules/Net.Shared.Background
-	url = https://github.com/masterlifting/Net.Shared.Background.git
+	url = https://github.com/masterlifting/Net.Shared.Background
 	branch = feature-issue_1-designing
 [submodule "submodules/AM.Shared"]
 	path = submodules/AM.Shared

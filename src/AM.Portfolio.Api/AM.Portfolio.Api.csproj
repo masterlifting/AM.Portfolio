@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\core\AM.Services.Portfolio.Core.csproj" />
-    <ProjectReference Include="..\infrastructure\AM.Services.Portfolio.Infrastructure.csproj" />
+    <ProjectReference Include="..\AM.Portfolio.Core\AM.Portfolio.Core.csproj" />
+    <ProjectReference Include="..\AM.Portfolio.Infrastructure\AM.Portfolio.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

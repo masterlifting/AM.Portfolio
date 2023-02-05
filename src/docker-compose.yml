@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   am.services.portfolio.api:
-    image: ${DOCKER_REGISTRY-}am.services.portfolio.api:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${DOCKER_REGISTRY-}am.portfolio.api:${PLATFORM:-linux}-${TAG:-latest}
     container_name: portfolio_api
     build:
       context: .
@@ -14,7 +14,7 @@ services:
       - DatabaseConnections__PostgreSQL__Password=${POSTGRES_PASSWORD}
       - DatabaseConnections__MongoDB__Password=${MONGO_PASSWORD}
   am.services.portfolio.worker:
-    image: ${DOCKER_REGISTRY-}am.services.portfolio.worker:${PLATFORM:-linux}-${TAG:-latest}
+    image: ${DOCKER_REGISTRY-}am.portfolio.worker:${PLATFORM:-linux}-${TAG:-latest}
     container_name: portfolio_worker
     build:
       context: .
