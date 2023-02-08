@@ -30,3 +30,11 @@
 	path = submodules/AM.Shared
 	url = https://github.com/masterlifting/AM.Shared
 	branch = dev
+[submodule "submodules/Net.Shared.Exceptions"]
+	path = submodules/Net.Shared.Exceptions
+	url = https://github.com/masterlifting/Net.Shared.Exceptions
+	branch = feature-issue_1-designing
+[submodule "submodules/Net.Shared"]
+	path = submodules/Net.Shared
+	url = https://github.com/masterlifting/Net.Shared
+	branch = feature-issue_1-designing
