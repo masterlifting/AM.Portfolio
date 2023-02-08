@@ -1,6 +1,6 @@
-using AM.Services.Portfolio.API.Services;
-using AM.Services.Portfolio.API.Services.Interfaces;
-using AM.Services.Portfolio.Infrastructure;
+using AM.Portfolio.Api.Services;
+using AM.Portfolio.Api.Services.Interfaces;
+using AM.Portfolio.Infrastructure;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 
 using Shared.Extensions.Serialization;
 
-namespace AM.Services.Portfolio.API;
+namespace AM.Portfolio.Api;
 
 public sealed class Startup
 {

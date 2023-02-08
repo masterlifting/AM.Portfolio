@@ -1,4 +1,4 @@
-﻿namespace AM.Services.Portfolio.Core;
+﻿namespace AM.Portfolio.Core;
 
 public static class Constants
 {

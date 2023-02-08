@@ -1,4 +1,4 @@
-﻿namespace AM.Services.Portfolio.Core.Abstractions.Persistence.Entities;
+﻿namespace AM.Portfolio.Core.Abstractions.Persistence.Entities;
 
 public interface IBalance
 {

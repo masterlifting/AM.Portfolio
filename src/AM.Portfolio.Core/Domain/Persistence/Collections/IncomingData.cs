@@ -1,6 +1,6 @@
-﻿using Shared.Persistence.Abstractions.Entities;
+﻿using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Services.Portfolio.Core.Domain.Persistence.Collections;
+namespace AM.Portfolio.Core.Domain.Persistence.Collections;
 
 public class IncomingData : IPersistentNoSql, IPersistentPayload, IPersistentProcess
 {

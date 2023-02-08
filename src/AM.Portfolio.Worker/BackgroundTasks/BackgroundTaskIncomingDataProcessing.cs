@@ -1,16 +1,17 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-using AM.Services.Portfolio.Core.Services.BcsServices.Interfaces;
+﻿using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Domain.Persistence.Collections;
+using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 using AM.Services.Portfolio.Worker.BackgroundTasksSteps;
+
+using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
 using Shared.Background.Core.BackgroundTasks;
 using Shared.Background.Core.Handlers;
-using Shared.Queue.Domain.WorkQueue;
 
-using static AM.Services.Portfolio.Core.Constants.Enums;
+using static AM.Portfolio.Core.Constants.Enums;
 
-namespace AM.Services.Portfolio.Worker.BackgroundTasks;
+namespace AM.Portfolio.Worker.BackgroundTasks;
 
 public sealed class BackgroundTaskIncomingDataProcessing : BackgroundTaskProcessing<IncomingData, ProcessStep>
 {

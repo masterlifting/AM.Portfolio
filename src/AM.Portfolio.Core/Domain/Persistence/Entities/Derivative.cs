@@ -1,9 +1,9 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.Persistence.Entities;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+﻿using AM.Portfolio.Core.Abstractions.Persistence.Entities;
+using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
-using Shared.Persistence.Abstractions.Entities;
+using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Services.Portfolio.Core.Domain.Persistence.Entities;
+namespace AM.Portfolio.Core.Domain.Persistence.Entities;
 
 public sealed class Derivative : IPersistentSql, IPersistentProcess, IBalance
 {
@@ -32,6 +32,6 @@ public sealed class Derivative : IPersistentSql, IPersistentProcess, IBalance
     public IEnumerable<Income>? Incomes { get; set; }
     public IEnumerable<Expense>? Expenses { get; set; }
     public IEnumerable<Event>? Events { get; set; }
-    
+
     public string? Description { get; init; }
 }

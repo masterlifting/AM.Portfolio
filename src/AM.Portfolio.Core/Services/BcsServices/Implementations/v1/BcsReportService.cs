@@ -1,16 +1,16 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.ExcelService;
-using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Services.Portfolio.Core.Exceptions;
-using AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
-using AM.Services.Portfolio.Core.Services.BcsServices.Interfaces;
-using AM.Services.Portfolio.Core.Services.BcsServices.Models;
+﻿using AM.Services.Portfolio.Core.Exceptions;
 
-using static AM.Services.Common.Constants.Enums;
-using static AM.Services.Portfolio.Core.Constants.Enums;
-using static Shared.Persistence.Abstractions.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
+using static AM.Portfolio.Core.Constants.Enums;
+using static Net.Shared.Persistence.Abstractions.Constants.Enums;
+using AM.Portfolio.Core.Domain.Persistence.Entities;
+using AM.Portfolio.Core.Services.BcsServices.Models;
+using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Abstractions.ExcelService;
+using AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
+using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 
-namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.v1;
+namespace AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
 
 public sealed class BcsReportService : IBcsReportService
 {
@@ -66,7 +66,7 @@ public sealed class BcsReportService : IBcsReportService
 
         var excel = _excelService.GetExcelDocument(payload);
 
-        int rowId = 0;
+        var rowId = 0;
 
         var agreement = BcsReportHelper.GetReportAgreement(rowId, excel);
         var (dateStart, dateEnd) = BcsReportHelper.GetReportPeriod(rowId, excel);
@@ -188,33 +188,33 @@ public sealed class BcsReportService : IBcsReportService
     {
         var result = new List<Event>(models.Count);
 
-        Account account = await _uow.Account.GetAccountAsync(agreement, userId, ProviderId);
-        Derivative[] derivatives = await _uow.Derivative.GetDerivativesAsync(AssetTypes.Stock);
-        Dictionary<string, IEnumerable<Derivative>> derivativeDictionary = derivatives
+        var account = await _uow.Account.GetAccountAsync(agreement, userId, ProviderId);
+        var derivatives = await _uow.Derivative.GetDerivativesAsync(AssetTypes.Stock);
+        var derivativeDictionary = derivatives
             .GroupBy(x => x.Code)
             .ToDictionary(x => x.Key, x => x.AsEnumerable());
 
         foreach (var item in models)
         {
-            if(!derivativeDictionary.ContainsKey(item.Asset))
+            if (!derivativeDictionary.ContainsKey(item.Asset))
                 throw new PortfolioCoreException(Initiator, nameof(GetEventsAsync), new($"'Asset '{item.Asset}' was not recognized as derivative"));
 
             var derivative = derivativeDictionary[item.Asset].First();
 
-                result.Add(new()
-                {
-                    UserId = userId,
-                    AccountId = account.Id,
-                    TypeId = (int)item.EventType,
-                    ProviderId = ProviderId,
-                    DerivativeId = derivative.Id,
-                    ExchangeId = (int)item.Exchange,
-                    ProcessStatusId = (int)ProcessStatuses.Ready,
-                    ProcessStepId = (int)ProcessSteps.CalculateEvent,
+            result.Add(new()
+            {
+                UserId = userId,
+                AccountId = account.Id,
+                TypeId = (int)item.EventType,
+                ProviderId = ProviderId,
+                DerivativeId = derivative.Id,
+                ExchangeId = (int)item.Exchange,
+                ProcessStatusId = (int)ProcessStatuses.Ready,
+                ProcessStepId = (int)ProcessSteps.CalculateEvent,
 
-                    Date = DateOnly.FromDateTime(item.Date),
-                    Value = item.Value
-                });
+                Date = DateOnly.FromDateTime(item.Date),
+                Value = item.Value
+            });
         }
 
         return result.ToArray();
@@ -223,9 +223,9 @@ public sealed class BcsReportService : IBcsReportService
     {
         var result = new List<Deal>(models.Count);
 
-        Account account = await _uow.Account.GetAccountAsync(agreement, userId, ProviderId);
-        Derivative[] derivatives = await _uow.Derivative.GetDerivativesAsync();
-        Dictionary<string, IEnumerable<Derivative>> derivativeDictionary = derivatives
+        var account = await _uow.Account.GetAccountAsync(agreement, userId, ProviderId);
+        var derivatives = await _uow.Derivative.GetDerivativesAsync();
+        var derivativeDictionary = derivatives
             .GroupBy(x => x.Code)
             .ToDictionary(x => x.Key, x => x.AsEnumerable());
 
@@ -238,9 +238,9 @@ public sealed class BcsReportService : IBcsReportService
 
             var derivativeIncome = derivativeDictionary[item.IncomeEvent.Asset].First();
             var derivativeExpense = derivativeDictionary[item.ExpenseEvent.Asset].First();
-            
+
             var dealId = Guid.NewGuid();
-            
+
             result.Add(new()
             {
                 Id = dealId,
@@ -248,7 +248,7 @@ public sealed class BcsReportService : IBcsReportService
                 AccountId = account.Id,
                 Cost = item.IncomeEvent.Value * item.ExpenseEvent.Value,
                 Income = new()
-                { 
+                {
                     DealId = dealId,
                     DerivativeId = derivativeIncome.Id,
                     Date = DateOnly.FromDateTime(item.IncomeEvent.Date),

@@ -1,15 +1,15 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.WebServices;
-using AM.Services.Portfolio.Core.Models.WebClient;
+﻿using AM.Portfolio.Core.Abstractions.WebServices;
+using AM.Portfolio.Core.Models.WebClient;
+using AM.Portfolio.Infrastructure.Settings;
 using AM.Services.Portfolio.Infrastructure.Exceptions;
-using AM.Services.Portfolio.Infrastructure.Settings;
 
 using Microsoft.Extensions.Options;
 
 using System.Net.Http.Json;
 
-using static AM.Services.Common.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
 
-namespace AM.Services.Portfolio.Infrastructure.WebClients;
+namespace AM.Portfolio.Infrastructure.WebClients;
 
 public sealed class MoexWebclient : IMoexWebclient
 {

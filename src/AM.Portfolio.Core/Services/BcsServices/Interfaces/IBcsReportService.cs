@@ -1,7 +1,7 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Services.Portfolio.Core.Services.BcsServices.Models;
+﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
+using AM.Portfolio.Core.Services.BcsServices.Models;
 
-namespace AM.Services.Portfolio.Core.Services.BcsServices.Interfaces;
+namespace AM.Portfolio.Core.Services.BcsServices.Interfaces;
 
 public interface IBcsReportService
 {

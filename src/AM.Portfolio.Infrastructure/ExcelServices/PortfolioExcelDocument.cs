@@ -1,10 +1,10 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.ExcelService;
+﻿using AM.Portfolio.Core.Abstractions.ExcelService;
 
 using Shared.Documents.Excel;
 
 using System.Data;
 
-namespace AM.Services.Portfolio.Infrastructure.ExcelServices;
+namespace AM.Portfolio.Infrastructure.ExcelServices;
 
 internal class PortfolioExcelDocument : IPortfolioExcelDocument
 {

@@ -1,7 +1,8 @@
-﻿using AM.Services.Common;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-using AM.Services.Portfolio.Infrastructure.Settings;
+﻿using AM.Portfolio.Core;
+using AM.Portfolio.Core.Domain.Persistence.Entities;
+using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+using AM.Portfolio.Infrastructure.Settings;
+using AM.Shared.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 using Shared.Persistence.Contexts;
 
-namespace AM.Services.Portfolio.Infrastructure.Persistence.Contexts;
+namespace AM.Portfolio.Infrastructure.Persistence.Contexts;
 
 public sealed class PostgrePortfolioContext : PostgreContext
 {
@@ -104,7 +105,7 @@ public sealed class PostgrePortfolioContext : PostgreContext
             e.Property(x => x.Created).HasDefaultValue(DateTime.UtcNow);
             e.Property(x => x.Updated).HasDefaultValue(DateTime.UtcNow);
 
-            e.HasIndex(x => new { x.Code, x.Name}).IsUnique();
+            e.HasIndex(x => new { x.Code, x.Name }).IsUnique();
         });
         builder.Entity<Income>(e =>
         {

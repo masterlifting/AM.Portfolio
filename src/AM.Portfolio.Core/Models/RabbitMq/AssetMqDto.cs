@@ -1,4 +1,4 @@
-﻿namespace AM.Services.Portfolio.Core.Models.RabbitMq;
+﻿namespace AM.Portfolio.Core.Models.RabbitMq;
 
 //public sealed class AssetMqDto : IMqProducerMessage<string>
 //{

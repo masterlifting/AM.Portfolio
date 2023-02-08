@@ -1,5 +1,5 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
-using AM.Services.Portfolio.Infrastructure.Settings;
+﻿using AM.Portfolio.Core.Domain.Persistence.Collections;
+using AM.Portfolio.Infrastructure.Settings;
 
 using Microsoft.Extensions.Options;
 
@@ -7,7 +7,7 @@ using MongoDB.Driver;
 
 using Shared.Persistence.Contexts;
 
-namespace AM.Services.Portfolio.Infrastructure.Persistence.Contexts;
+namespace AM.Portfolio.Infrastructure.Persistence.Contexts;
 
 public class MongoPortfolioContext : MongoContext
 {

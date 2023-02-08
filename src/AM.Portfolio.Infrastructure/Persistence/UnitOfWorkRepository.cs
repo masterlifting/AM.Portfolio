@@ -1,9 +1,9 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Abstractions.Persistence.Repositories;
+﻿using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Abstractions.Persistence.Repositories;
 
-using Shared.Persistence.Abstractions.Contexts;
+using Net.Shared.Persistence.Abstractions.Contexts;
 
-namespace AM.Services.Portfolio.Infrastructure.Persistence
+namespace AM.Portfolio.Infrastructure.Persistence
 {
     public sealed class UnitOfWorkRepository : IUnitOfWorkRepository
     {

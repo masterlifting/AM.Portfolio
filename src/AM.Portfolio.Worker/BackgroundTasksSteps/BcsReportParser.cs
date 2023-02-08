@@ -1,15 +1,15 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
-using AM.Services.Portfolio.Core.Services.BcsServices.Interfaces;
+﻿using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Domain.Persistence.Collections;
+using AM.Portfolio.Core.Services.BcsServices.Interfaces;
+using AM.Portfolio.Infrastructure.Persistence;
 using AM.Services.Portfolio.Infrastructure.Exceptions;
-using AM.Services.Portfolio.Infrastructure.Persistence;
 
-using Shared.Background.Interfaces;
-using Shared.Queue.Domain.WorkQueue;
+using Net.Shared.Background.Abstractions.Interfaces;
+using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
-using static Shared.Persistence.Abstractions.Constants.Enums;
+using static Net.Shared.Persistence.Abstractions.Constants.Enums;
 
-namespace AM.Services.Portfolio.Worker.BackgroundTasksSteps;
+namespace AM.Portfolio.Worker.BackgroundTasksSteps;
 
 public class BcsReportParser : IProcessStepHandler<IncomingData>
 {

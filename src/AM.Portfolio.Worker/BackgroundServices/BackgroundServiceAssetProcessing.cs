@@ -1,12 +1,12 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
+using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
 using Microsoft.Extensions.Options;
 
 using Shared.Background.Core.BackgroundServices;
 using Shared.Background.Settings.Sections;
 
-namespace AM.Services.Portfolio.Worker.BackgroundServices;
+namespace AM.Portfolio.Worker.BackgroundServices;
 
 public sealed class BackgroundServiceAssetProcessing : BackgroundServiceProcessing<Asset, ProcessStep>
 {

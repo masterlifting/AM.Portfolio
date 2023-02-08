@@ -1,4 +1,4 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
+﻿using AM.Portfolio.Core.Domain.Persistence.Collections;
 
 using Microsoft.AspNetCore.Http;
 
@@ -7,7 +7,7 @@ using Shared.Models.Results;
 using System;
 using System.Threading.Tasks;
 
-namespace AM.Services.Portfolio.API.Services.Interfaces
+namespace AM.Portfolio.Api.Services.Interfaces
 {
     public interface IReportApi
     {

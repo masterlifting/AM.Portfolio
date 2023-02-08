@@ -1,5 +1,5 @@
-﻿using AM.Services.Portfolio.API.Exceptions;
-using AM.Services.Portfolio.API.Services.Interfaces;
+﻿using AM.Portfolio.Api.Services.Interfaces;
+using AM.Services.Portfolio.API.Exceptions;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Shared.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace AM.Services.Portfolio.API.Controllers;
+namespace AM.Portfolio.Api.Controllers;
 
 [ApiController, Route("[controller]")]
 public sealed class ReportsController : ControllerBase

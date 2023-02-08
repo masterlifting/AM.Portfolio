@@ -1,25 +1,25 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.ExcelService;
-using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Abstractions.Persistence.Repositories;
-using AM.Services.Portfolio.Core.Abstractions.WebServices;
-using AM.Services.Portfolio.Core.Services.BcsServices.Implementations.v1;
-using AM.Services.Portfolio.Core.Services.BcsServices.Interfaces;
-using AM.Services.Portfolio.Infrastructure.ExcelServices;
-using AM.Services.Portfolio.Infrastructure.Persistence;
-using AM.Services.Portfolio.Infrastructure.Persistence.Contexts;
-using AM.Services.Portfolio.Infrastructure.Persistence.Repositories;
-using AM.Services.Portfolio.Infrastructure.Settings;
-using AM.Services.Portfolio.Infrastructure.WebClients;
+﻿using AM.Portfolio.Core.Abstractions.ExcelService;
+using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Abstractions.Persistence.Repositories;
+using AM.Portfolio.Core.Abstractions.WebServices;
+using AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
+using AM.Portfolio.Core.Services.BcsServices.Interfaces;
+using AM.Portfolio.Infrastructure.ExcelServices;
+using AM.Portfolio.Infrastructure.Persistence;
+using AM.Portfolio.Infrastructure.Persistence.Contexts;
+using AM.Portfolio.Infrastructure.Persistence.Repositories;
+using AM.Portfolio.Infrastructure.Settings;
+using AM.Portfolio.Infrastructure.WebClients;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using Net.Shared.Persistence.Abstractions.Contexts;
+using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
+
 using Polly;
 
-using Shared.Persistence.Abstractions.Contexts;
-using Shared.Queue.Domain.WorkQueue;
-
-namespace AM.Services.Portfolio.Infrastructure;
+namespace AM.Portfolio.Infrastructure;
 
 public static class PortfolioInfrastructureRegistration
 {

@@ -1,5 +1,5 @@
-﻿using AM.Services.Portfolio.API.Services;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
+﻿using AM.Portfolio.Api.Services;
+using AM.Portfolio.Core.Domain.Persistence.Entities;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ using Shared.Models.Pagination;
 using System;
 using System.Threading.Tasks;
 
-namespace AM.Services.Portfolio.API.Controllers;
+namespace AM.Portfolio.Api.Controllers;
 
 [ApiController, Route("[controller]")]
 public sealed class EventsController : ControllerBase

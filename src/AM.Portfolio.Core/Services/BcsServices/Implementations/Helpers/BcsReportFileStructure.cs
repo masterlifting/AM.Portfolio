@@ -1,7 +1,7 @@
-using static AM.Services.Common.Constants.Enums;
-using static AM.Services.Portfolio.Core.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
+using static AM.Portfolio.Core.Constants.Enums;
 
-namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
+namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
 
 public static class BcsReportFileStructure
 {

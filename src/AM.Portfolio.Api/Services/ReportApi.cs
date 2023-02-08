@@ -1,6 +1,6 @@
-﻿using AM.Services.Portfolio.API.Services.Interfaces;
-using AM.Services.Portfolio.Core.Abstractions.Persistence;
-using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
+﻿using AM.Portfolio.Api.Services.Interfaces;
+using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Domain.Persistence.Collections;
 
 using Microsoft.AspNetCore.Http;
 
@@ -11,9 +11,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-using static Shared.Persistence.Abstractions.Constants.Enums;
+using static Net.Shared.Persistence.Abstractions.Constants.Enums;
 
-namespace AM.Services.Portfolio.API.Services
+namespace AM.Portfolio.Api.Services
 {
     public class ReportApi : IReportApi
     {

@@ -1,14 +1,14 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.ExcelService;
-using AM.Services.Portfolio.Core.Exceptions;
-using AM.Services.Portfolio.Core.Services.BcsServices.Implementations.v1;
+﻿using AM.Services.Portfolio.Core.Exceptions;
 
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-using static AM.Services.Common.Constants.Enums;
-using static AM.Services.Portfolio.Core.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
+using static AM.Portfolio.Core.Constants.Enums;
+using AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
+using AM.Portfolio.Core.Abstractions.ExcelService;
 
-namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helpers
+namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
 {
     internal static class BcsReportHelper
     {
@@ -52,7 +52,7 @@ namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helper
         {
             while (!excel.TryGetCellValue(++rowId, 1, "Генеральное соглашение:", out _))
                 continue;
-            
+
             var agreement = excel.GetCellValue(rowId, 5);
 
             return string.IsNullOrWhiteSpace(agreement)
@@ -75,7 +75,7 @@ namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helper
 
             return (GetDate(periods[1], action), GetDate(periods[3], action));
         }
-        
+
         internal static (string Income, string Expense) GetExchangeCurrencies(string? value, string action)
         {
             action = action + '.' + nameof(GetExchangeCurrencies);
@@ -119,9 +119,9 @@ namespace AM.Services.Portfolio.Core.Services.BcsServices.Implementations.Helper
                 ? BcsReportFileStructure.ComissionEvents[value]
                 : throw new PortfolioCoreException(Initiator, action, new($"Event type '{value}' was not recognized"));
         }
-      
+
         internal static string GetCurrency(Currencies? value, string action) => !value.HasValue
-            ? throw new PortfolioCoreException(Initiator, action +'.'+ nameof(GetCurrency), new("Currency not found"))
+            ? throw new PortfolioCoreException(Initiator, action + '.' + nameof(GetCurrency), new("Currency not found"))
             : value.Value.ToString();
         internal static decimal GetDecimal(string? value, string action)
         {

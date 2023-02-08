@@ -1,4 +1,4 @@
-namespace AM.Services.Portfolio.Core.Services.BcsServices.Models;
+namespace AM.Portfolio.Core.Services.BcsServices.Models;
 
 public sealed class BcsReportModel
 {

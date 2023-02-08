@@ -1,8 +1,8 @@
-﻿using AM.Services.Portfolio.Core.Models.WebClient;
+﻿using AM.Portfolio.Core.Models.WebClient;
 
-using static AM.Services.Common.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
 
-namespace AM.Services.Portfolio.Core.Abstractions.WebServices;
+namespace AM.Portfolio.Core.Abstractions.WebServices;
 
 public interface IMoexWebclient
 {

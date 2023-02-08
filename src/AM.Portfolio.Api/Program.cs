@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace AM.Services.Portfolio.API;
+namespace AM.Portfolio.Api;
 
 public sealed class Program
 {

@@ -1,6 +1,6 @@
 ﻿using Shared.Persistence.Settings.Connections;
 
-namespace AM.Services.Portfolio.Infrastructure.Settings;
+namespace AM.Portfolio.Infrastructure.Settings;
 
 public sealed class DatabaseConnectionSection
 {

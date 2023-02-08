@@ -1,13 +1,13 @@
-using AM.Services.Portfolio.Core.Domain.Persistence.Collections;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-using AM.Services.Portfolio.Infrastructure;
-using AM.Services.Portfolio.Worker.BackgroundServices;
-using AM.Services.Portfolio.Worker.BackgroundTasks;
+using AM.Portfolio.Core.Domain.Persistence.Collections;
+using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+using AM.Portfolio.Infrastructure;
+using AM.Portfolio.Worker.BackgroundServices;
+using AM.Portfolio.Worker.BackgroundTasks;
 
 using Shared.Background.Core.BackgroundTasks;
 using Shared.Background.Settings.Sections;
 
-namespace AM.Services.Portfolio.Worker;
+namespace AM.Portfolio.Worker;
 
 public class Program
 {

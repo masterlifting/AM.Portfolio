@@ -1,11 +1,13 @@
-﻿using AM.Services.Portfolio.API.Models;
-using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
+﻿using AM.Portfolio.Api.Models;
+using AM.Portfolio.Core.Domain.Persistence.Entities;
+
 using Shared.Models.Pagination;
 using Shared.Models.Results;
+
 using System;
 using System.Threading.Tasks;
 
-namespace AM.Services.Portfolio.API.Services;
+namespace AM.Portfolio.Api.Services;
 
 public sealed class EventApi
 {

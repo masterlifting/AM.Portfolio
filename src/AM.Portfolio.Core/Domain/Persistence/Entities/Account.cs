@@ -1,8 +1,8 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+﻿using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
-using Shared.Persistence.Abstractions.Entities;
+using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Services.Portfolio.Core.Domain.Persistence.Entities;
+namespace AM.Portfolio.Core.Domain.Persistence.Entities;
 
 public sealed class Account : IPersistentSql
 {

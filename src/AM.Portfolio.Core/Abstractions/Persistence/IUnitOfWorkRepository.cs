@@ -1,8 +1,8 @@
-﻿using AM.Services.Portfolio.Core.Abstractions.Persistence.Repositories;
+﻿using AM.Portfolio.Core.Abstractions.Persistence.Repositories;
 
-using Shared.Persistence.Abstractions.Contexts;
+using Net.Shared.Persistence.Abstractions.Contexts;
 
-namespace AM.Services.Portfolio.Core.Abstractions.Persistence
+namespace AM.Portfolio.Core.Abstractions.Persistence
 {
     public interface IUnitOfWorkRepository
     {

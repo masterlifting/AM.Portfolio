@@ -1,10 +1,10 @@
-﻿using AM.Services.Portfolio.Core.Domain.Persistence.Entities;
+﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
 
-using Shared.Persistence.Abstractions.Repositories;
+using Net.Shared.Persistence.Abstractions.Repositories;
 
-using static AM.Services.Common.Constants.Enums;
+using static AM.Shared.Abstractions.Constants.Enums;
 
-namespace AM.Services.Portfolio.Core.Abstractions.Persistence.Repositories
+namespace AM.Portfolio.Core.Abstractions.Persistence.Repositories
 {
     public interface IDerivativeRepository : IPersistenceSqlRepository<Derivative>
     {

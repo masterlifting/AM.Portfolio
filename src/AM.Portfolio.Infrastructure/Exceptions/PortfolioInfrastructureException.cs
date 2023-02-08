@@ -1,7 +1,7 @@
 ﻿using Shared.Exceptions.Abstractions;
 using Shared.Exceptions.Models;
 
-namespace AM.Services.Portfolio.Infrastructure.Exceptions;
+namespace AM.Portfolio.Infrastructure.Exceptions;
 
 public sealed class PortfolioInfrastructureException : SharedException
 {

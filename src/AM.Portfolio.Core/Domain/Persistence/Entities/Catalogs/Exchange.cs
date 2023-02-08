@@ -1,8 +1,9 @@
-﻿using AM.Services.Common.Abstractions.Persistence.Entities.Catalogs;
+﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
+using AM.Shared.Abstractions.Persistence.Entities.Catalogs;
 
-using Shared.Persistence.Abstractions.Entities;
+using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Services.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+namespace AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
 public sealed class Exchange : ExchangeBase, IPersistentSql
 {
