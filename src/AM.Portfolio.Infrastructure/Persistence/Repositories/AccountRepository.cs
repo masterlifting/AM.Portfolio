@@ -12,9 +12,9 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class AccountRepository : PostgreRepository<Account>, IAccountRepository
     {
-        private readonly IPostgrePersistenceContext _context;
+        private readonly IPersistencePostgreContext _context;
 
-        public AccountRepository(ILogger<Account> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public AccountRepository(ILogger<Account> logger, IPersistencePostgreContext context) : base(logger, context)
         {
             _context = context;
         }

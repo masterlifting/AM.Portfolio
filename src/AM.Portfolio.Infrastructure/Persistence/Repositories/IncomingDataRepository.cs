@@ -11,7 +11,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class IncomingDataRepository : MongoRepository<IncomingData>, IIncomingDataRepository
     {
-        public IncomingDataRepository(ILogger<IncomingData> logger, IMongoPersistenceContext context) : base(logger, context)
+        public IncomingDataRepository(ILogger<IncomingData> logger, IPersistenceMongoContext context) : base(logger, context)
         {
         }
     }

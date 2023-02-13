@@ -14,9 +14,9 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class DerivativeRepository : PostgreRepository<Derivative>, IDerivativeRepository
     {
-        private readonly IPostgrePersistenceContext _context;
+        private readonly IPersistencePostgreContext _context;
 
-        public DerivativeRepository(ILogger<Derivative> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public DerivativeRepository(ILogger<Derivative> logger, IPersistencePostgreContext context) : base(logger, context)
         {
             _context = context;
         }

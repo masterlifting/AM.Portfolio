@@ -8,8 +8,8 @@ namespace AM.Portfolio.Infrastructure.Persistence
     public sealed class UnitOfWorkRepository : IUnitOfWorkRepository
     {
         public UnitOfWorkRepository(
-            IPostgrePersistenceContext postgreContext
-            , IMongoPersistenceContext mongoContext
+            IPersistencePostgreContext postgreContext
+            , IPersistenceMongoContext mongoContext
             , IProcessStepRepository processStep
             , IIncomingDataRepository incomingData
             , IAssetRepository asset
@@ -31,8 +31,8 @@ namespace AM.Portfolio.Infrastructure.Persistence
             Account = account;
         }
 
-        public IPostgrePersistenceContext PostgreContext { get; }
-        public IMongoPersistenceContext MongoContext { get; }
+        public IPersistencePostgreContext PostgreContext { get; }
+        public IPersistenceMongoContext MongoContext { get; }
 
         public IProcessStepRepository ProcessStep { get; }
         public IIncomingDataRepository IncomingData { get; }

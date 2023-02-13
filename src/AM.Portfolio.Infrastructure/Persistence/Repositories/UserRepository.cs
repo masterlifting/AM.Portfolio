@@ -11,7 +11,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class UserRepository : PostgreRepository<User>, IUserRepository
     {
-        public UserRepository(ILogger<User> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public UserRepository(ILogger<User> logger, IPersistencePostgreContext context) : base(logger, context)
         {
         }
     }

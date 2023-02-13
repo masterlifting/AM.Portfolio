@@ -11,7 +11,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class EventRepository : PostgreRepository<Event>, IEventRepository
     {
-        public EventRepository(ILogger<Event> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public EventRepository(ILogger<Event> logger, IPersistencePostgreContext context) : base(logger, context)
         {
         }
     }

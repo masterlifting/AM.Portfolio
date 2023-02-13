@@ -11,7 +11,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class DealRepository : PostgreRepository<Deal>, IDealRepository
     {
-        public DealRepository(ILogger<Deal> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public DealRepository(ILogger<Deal> logger, IPersistencePostgreContext context) : base(logger, context)
         {
         }
     }

@@ -11,7 +11,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 {
     public sealed class ProcessStepRepository : PostgreRepository<ProcessStep>, IProcessStepRepository
     {
-        public ProcessStepRepository(ILogger<ProcessStep> logger, IPostgrePersistenceContext context) : base(logger, context)
+        public ProcessStepRepository(ILogger<ProcessStep> logger, IPersistencePostgreContext context) : base(logger, context)
         {
         }
     }

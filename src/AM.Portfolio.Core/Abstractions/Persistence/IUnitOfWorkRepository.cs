@@ -6,8 +6,8 @@ namespace AM.Portfolio.Core.Abstractions.Persistence
 {
     public interface IUnitOfWorkRepository
     {
-        IPostgrePersistenceContext PostgreContext { get; }
-        IMongoPersistenceContext MongoContext { get; }
+        IPersistencePostgreContext PostgreContext { get; }
+        IPersistenceMongoContext MongoContext { get; }
 
         IProcessStepRepository ProcessStep { get; }
         IIncomingDataRepository IncomingData { get; }
