@@ -3,16 +3,16 @@ using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
 using Microsoft.Extensions.Options;
 
-using Shared.Background.Core.BackgroundServices;
-using Shared.Background.Settings.Sections;
+using Net.Shared.Background.BackgroundServices;
+using Net.Shared.Background.Models.Settings;
 
 namespace AM.Portfolio.Worker.BackgroundServices;
 
-public sealed class BackgroundServiceAssetProcessing : BackgroundServiceProcessing<Asset, ProcessStep>
+public sealed class AssetProcessingBackgroundService : ProcessingBackgroundService<Asset, ProcessStep>
 {
-    public BackgroundServiceAssetProcessing(
+    public AssetProcessingBackgroundService(
         IServiceScopeFactory scopeFactory,
         IOptionsMonitor<BackgroundTaskSection> options,
-        ILogger<BackgroundServiceAssetProcessing> logger)
+        ILogger<AssetProcessingBackgroundService> logger)
         : base(options, logger, scopeFactory) { }
 }

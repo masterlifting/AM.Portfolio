@@ -2,14 +2,14 @@
 using AM.Portfolio.Core.Domain.Persistence.Entities;
 using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
-using Shared.Background.Core.BackgroundTasks;
-using Shared.Background.Core.Handlers;
+using Net.Shared.Background.BackgroundTasks;
+using Net.Shared.Background.Handlers;
 
 namespace AM.Portfolio.Worker.BackgroundTasks;
 
-public sealed class BackgroundTaskEventProcessing : BackgroundTaskProcessing<Event, ProcessStep>
+public sealed class EventProcessingBackgroundTask : ProcessingBackgroundTask<Event, ProcessStep>
 {
-    public BackgroundTaskEventProcessing(ILogger<BackgroundTaskEventProcessing> logger, IUnitOfWorkRepository unitOfWork)
+    public EventProcessingBackgroundTask(ILogger<EventProcessingBackgroundTask> logger, IUnitOfWorkRepository unitOfWork)
         : base(logger, unitOfWork.Event, unitOfWork.ProcessStep, new BackgroundTaskStepHandler<Event>(new() { }))
     {
     }

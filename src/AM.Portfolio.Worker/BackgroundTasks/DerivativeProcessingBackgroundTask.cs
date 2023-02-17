@@ -2,14 +2,14 @@
 using AM.Portfolio.Core.Domain.Persistence.Entities;
 using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
-using Shared.Background.Core.BackgroundTasks;
-using Shared.Background.Core.Handlers;
+using Net.Shared.Background.BackgroundTasks;
+using Net.Shared.Background.Handlers;
 
 namespace AM.Portfolio.Worker.BackgroundTasks;
 
-public sealed class BackgroundTaskDerivativeProcessing : BackgroundTaskProcessing<Derivative, ProcessStep>
+public sealed class DerivativeProcessingBackgroundTask : ProcessingBackgroundTask<Derivative, ProcessStep>
 {
-    public BackgroundTaskDerivativeProcessing(ILogger<BackgroundTaskDerivativeProcessing> logger, IUnitOfWorkRepository unitOfWork)
+    public DerivativeProcessingBackgroundTask(ILogger<DerivativeProcessingBackgroundTask> logger, IUnitOfWorkRepository unitOfWork)
         : base(logger, unitOfWork.Derivative, unitOfWork.ProcessStep, new BackgroundTaskStepHandler<Derivative>(new() { }))
     {
     }

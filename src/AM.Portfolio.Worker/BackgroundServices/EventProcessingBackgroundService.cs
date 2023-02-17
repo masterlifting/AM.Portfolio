@@ -3,15 +3,15 @@ using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
 using Microsoft.Extensions.Options;
 
-using Shared.Background.Core.BackgroundServices;
-using Shared.Background.Settings.Sections;
+using Net.Shared.Background.BackgroundServices;
+using Net.Shared.Background.Models.Settings;
 namespace AM.Portfolio.Worker.BackgroundServices;
 
-public sealed class BackgroundServiceEventProcessing : BackgroundServiceProcessing<Event, ProcessStep>
+public sealed class EventProcessingBackgroundService : ProcessingBackgroundService<Event, ProcessStep>
 {
-    public BackgroundServiceEventProcessing(
+    public EventProcessingBackgroundService(
         IServiceScopeFactory scopeFactory,
         IOptionsMonitor<BackgroundTaskSection> options,
-        ILogger<BackgroundServiceEventProcessing> logger)
+        ILogger<EventProcessingBackgroundService> logger)
          : base(options, logger, scopeFactory) { }
 }

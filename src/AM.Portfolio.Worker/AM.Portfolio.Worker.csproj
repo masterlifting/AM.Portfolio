@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\submodules\Net.Shared.Background\src\Net.Shared.Background\Net.Shared.Background.csproj" />
     <ProjectReference Include="..\AM.Portfolio.Core\AM.Portfolio.Core.csproj" />
     <ProjectReference Include="..\AM.Portfolio.Infrastructure\AM.Portfolio.Infrastructure.csproj" />
   </ItemGroup>

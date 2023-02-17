@@ -1,11 +1,8 @@
-using AM.Portfolio.Core.Domain.Persistence.Collections;
-using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-using AM.Portfolio.Infrastructure;
+﻿using AM.Portfolio.Infrastructure;
 using AM.Portfolio.Worker.BackgroundServices;
 using AM.Portfolio.Worker.BackgroundTasks;
 
-using Shared.Background.Core.BackgroundTasks;
-using Shared.Background.Settings.Sections;
+using Net.Shared.Background.Models.Settings;
 
 namespace AM.Portfolio.Worker;
 
@@ -22,8 +19,8 @@ public class Program
 
             services.Configure<BackgroundTaskSection>(configuration.GetSection(BackgroundTaskSection.Name));
 
-            services.AddHostedService<BackgroundServiceIncomingDataProcessing>();
-            services.AddTransient<BackgroundTaskProcessing<IncomingData, ProcessStep>, BackgroundTaskIncomingDataProcessing>();
+            services.AddHostedService<IncomingDataProcessingBackgroundService>();
+            services.AddTransient<IncomingDataProcessingBackgroundTask>();
         })
         .Build()
         .Run();

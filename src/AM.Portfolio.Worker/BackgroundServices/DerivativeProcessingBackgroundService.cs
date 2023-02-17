@@ -3,15 +3,15 @@ using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
 
 using Microsoft.Extensions.Options;
 
-using Shared.Background.Core.BackgroundServices;
-using Shared.Background.Settings.Sections;
+using Net.Shared.Background.BackgroundServices;
+using Net.Shared.Background.Models.Settings;
 namespace AM.Portfolio.Worker.BackgroundServices;
 
-public sealed class BackgroundServiceDerivativeProcessing : BackgroundServiceProcessing<Derivative, ProcessStep>
+public sealed class DerivativeProcessingBackgroundService : ProcessingBackgroundService<Derivative, ProcessStep>
 {
-    public BackgroundServiceDerivativeProcessing(
+    public DerivativeProcessingBackgroundService(
         IServiceScopeFactory scopeFactory,
         IOptionsMonitor<BackgroundTaskSection> options,
-        ILogger<BackgroundServiceDerivativeProcessing> logger)
+        ILogger<DerivativeProcessingBackgroundService> logger)
         : base(options, logger, scopeFactory) { }
 }

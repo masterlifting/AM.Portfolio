@@ -1,17 +1,19 @@
-﻿using AM.Portfolio.Core.Abstractions.Persistence;
+﻿using System.Collections.Generic;
+
+using AM.Portfolio.Core.Abstractions.Persistence;
 using AM.Portfolio.Core.Domain.Persistence.Collections;
 using AM.Portfolio.Core.Services.BcsServices.Interfaces;
-using AM.Portfolio.Infrastructure.Persistence;
-using AM.Services.Portfolio.Infrastructure.Exceptions;
+using AM.Portfolio.Worker.Exceptions;
 
 using Net.Shared.Background.Abstractions.Interfaces;
+using Net.Shared.Persistence.Abstractions.Entities;
 using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
 using static Net.Shared.Persistence.Abstractions.Constants.Enums;
 
 namespace AM.Portfolio.Worker.BackgroundTasksSteps;
 
-public class BcsReportParser : IProcessStepHandler<IncomingData>
+public class BcsReportParser : IProcessStepHandler
 {
     private readonly IUnitOfWorkRepository _uow;
     private readonly IWorkQueue _workQueue;
@@ -22,7 +24,11 @@ public class BcsReportParser : IProcessStepHandler<IncomingData>
         _uow = uow;
         _workQueue = workQueue;
     }
-    public Task HandleStepAsync(IEnumerable<IncomingData> entities, CancellationToken cToken) =>
+
+    public Task HandleStepAsync(IEnumerable<IPersistentProcess> entities, CancellationToken cToken) => HandleAsync((IEnumerable<IncomingData>)entities, cToken);
+    public Task<IReadOnlyCollection<IPersistentProcess>> HandleStepAsync(CancellationToken cToken) => HandleAsync(cToken);
+
+    private Task HandleAsync(IEnumerable<IncomingData> entities, CancellationToken cToken) =>
         Task.WhenAll(entities.Select(x => Task.Run(async () =>
         {
             try
@@ -44,7 +50,7 @@ public class BcsReportParser : IProcessStepHandler<IncomingData>
                     catch (Exception exeption)
                     {
                         await _uow.PostgreContext.RollbackTransactionAsync(cToken);
-                        throw new PortfolioInfrastructureException(nameof(UnitOfWorkRepository), "Save to database form the " + nameof(HandleStepAsync), new(exeption));
+                        throw new AmPortfolioWorkerException(exeption);
                     }
                 });
             }
@@ -54,8 +60,8 @@ public class BcsReportParser : IProcessStepHandler<IncomingData>
                 x.Error = $"Source: {x.PayloadSource}. " + exception.Message;
             }
         }, cToken)));
-    public Task<IReadOnlyCollection<IncomingData>> HandleStepAsync(CancellationToken cToken)
+    private async Task<IReadOnlyCollection<IPersistentProcess>> HandleAsync(CancellationToken cToken)
     {
-        throw new NotImplementedException();
+        return new List<IncomingData>().AsReadOnly();
     }
 }
