@@ -3,6 +3,9 @@ using AM.Portfolio.Worker.BackgroundServices;
 using AM.Portfolio.Worker.BackgroundTasks;
 
 using Net.Shared.Background.Models.Settings;
+using Net.Shared.Persistence.Abstractions.Entities;
+using Net.Shared.Persistence.Abstractions.Entities.Catalogs;
+using Net.Shared.Persistence.Abstractions.Repositories;
 
 namespace AM.Portfolio.Worker;
 
@@ -18,6 +21,7 @@ public class Program
             services.AddPortfolioCoreServices();
 
             services.Configure<BackgroundTaskSection>(configuration.GetSection(BackgroundTaskSection.Name));
+
 
             services.AddHostedService<IncomingDataProcessingBackgroundService>();
             services.AddTransient<IncomingDataProcessingBackgroundTask>();

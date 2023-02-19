@@ -1,5 +1,4 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Collections;
-
+﻿using AM.Portfolio.Core.Persistence.Entities.NoSql;
 using Microsoft.AspNetCore.Http;
 
 using Shared.Models.Results;

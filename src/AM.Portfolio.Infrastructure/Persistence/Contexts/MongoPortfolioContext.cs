@@ -1,11 +1,11 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Collections;
+﻿using AM.Portfolio.Core.Persistence.Entities.NoSql;
 using AM.Portfolio.Infrastructure.Settings;
 
 using Microsoft.Extensions.Options;
 
 using MongoDB.Driver;
 
-using Shared.Persistence.Contexts;
+using Net.Shared.Persistence.Contexts;
 
 namespace AM.Portfolio.Infrastructure.Persistence.Contexts;
 
@@ -18,7 +18,7 @@ public class MongoPortfolioContext : MongoContext
     {
         //BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
 
-        builder.CreateCollection<IncomingData>().Indexes
+        builder.SetCollection<IncomingData>().Indexes
         .CreateOne(new CreateIndexModel<IncomingData>(
             Builders<IncomingData>.IndexKeys.Ascending(x => x.PayloadHash)
             , new CreateIndexOptions { Unique = true }));

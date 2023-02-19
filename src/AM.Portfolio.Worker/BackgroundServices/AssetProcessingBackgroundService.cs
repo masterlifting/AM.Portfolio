@@ -1,6 +1,5 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-
+﻿using AM.Portfolio.Core.Persistence.Entities.Sql;
+using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using Microsoft.Extensions.Options;
 
 using Net.Shared.Background.BackgroundServices;

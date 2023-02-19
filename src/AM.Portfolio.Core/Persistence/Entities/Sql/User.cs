@@ -1,6 +1,6 @@
 ﻿using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Portfolio.Core.Domain.Persistence.Entities;
+namespace AM.Portfolio.Core.Persistence.Entities.Sql;
 
 public sealed class User : IPersistentSql
 {

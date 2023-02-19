@@ -1,15 +1,14 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-
+﻿using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Portfolio.Core.Domain.Persistence.Entities;
+namespace AM.Portfolio.Core.Persistence.Entities.Sql;
 
-public sealed class Deal : IPersistentSql, IPersistentProcess
+public sealed class Event : IPersistentSql, IPersistentProcess
 {
     public Guid Id { get; init; }
 
-    public DateOnly Date { get; init; }
-    public decimal Cost { get; init; }
+    public DateOnly Date { get; set; }
+    public decimal Value { get; set; }
 
     public ProcessStep ProcessStep { get; set; } = null!;
     public int ProcessStepId { get; set; }
@@ -18,14 +17,17 @@ public sealed class Deal : IPersistentSql, IPersistentProcess
     public byte ProcessAttempt { get; set; }
     public string? Error { get; set; }
 
-    public DateTime Created { get; init; }
     public DateTime Updated { get; set; }
-
-    public Income Income { get; init; } = null!;
-    public Expense Expense { get; init; } = null!;
+    public DateTime Created { get; init; }
 
     public User User { get; set; } = null!;
     public Guid UserId { get; set; }
+
+    public Derivative Derivative { get; set; } = null!;
+    public Guid DerivativeId { get; set; }
+
+    public EventType Type { get; set; } = null!;
+    public int TypeId { get; set; }
 
     public Account Account { get; set; } = null!;
     public int AccountId { get; set; }

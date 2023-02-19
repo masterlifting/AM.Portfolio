@@ -1,10 +1,10 @@
 ﻿using AM.Portfolio.Core.Abstractions.Persistence.Entities;
-using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using AM.Shared.Abstractions.Persistence.Entities;
 
 using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Portfolio.Core.Domain.Persistence.Entities;
+namespace AM.Portfolio.Core.Persistence.Entities.Sql;
 
 public sealed class Asset : IPersistentSql, IAsset, IPersistentProcess, IBalance
 {

@@ -2,13 +2,13 @@
 
 using static AM.Shared.Abstractions.Constants.Enums;
 using static AM.Portfolio.Core.Constants.Enums;
-using static Net.Shared.Persistence.Abstractions.Constants.Enums;
-using AM.Portfolio.Core.Domain.Persistence.Entities;
+using static Net.Shared.Persistence.Models.Constants.Enums;
 using AM.Portfolio.Core.Services.BcsServices.Models;
 using AM.Portfolio.Core.Abstractions.Persistence;
 using AM.Portfolio.Core.Abstractions.ExcelService;
 using AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
 using AM.Portfolio.Core.Services.BcsServices.Interfaces;
+using AM.Portfolio.Core.Persistence.Entities.Sql;
 
 namespace AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
 

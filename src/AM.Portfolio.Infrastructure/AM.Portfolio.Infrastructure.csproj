@@ -12,11 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\submodules\Net.Shared.Background\src\Net.Shared.Background.Core\Net.Shared.Background.csproj" />
-    <ProjectReference Include="..\..\submodules\Net.Shared.Documents\src\Net.Shared.Documents.Core\Net.Shared.Documents.csproj" />
-    <ProjectReference Include="..\..\submodules\Net.Shared.Persistence\src\Net.Shared.Persistence.Core\Net.Shared.Persistence.csproj" />
-    <ProjectReference Include="..\..\submodules\Net.Shared.Queues\src\Net.Shared.Queues.Core\Net.Shared.Queues.csproj" />
-    <ProjectReference Include="..\..\submodules\Net.Shared.Web\src\Net.Shared.Web.Core\Net.Shared.Web.csproj" />
+    <ProjectReference Include="..\..\submodules\Net.Shared.Persistence\src\Net.Shared.Persistence\Net.Shared.Persistence.csproj" />
+    <ProjectReference Include="..\..\submodules\Net.Shared.Queues\src\Net.Shared.Queues\Net.Shared.Queues.csproj" />
     <ProjectReference Include="..\AM.Portfolio.Core\AM.Portfolio.Core.csproj" />
   </ItemGroup>
 

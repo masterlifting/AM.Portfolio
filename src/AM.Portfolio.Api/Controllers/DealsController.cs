@@ -1,6 +1,5 @@
 ﻿using AM.Portfolio.Api.Services;
-using AM.Portfolio.Core.Domain.Persistence.Entities;
-
+using AM.Portfolio.Core.Persistence.Entities.Sql;
 using Microsoft.AspNetCore.Mvc;
 
 using Shared.Models.Pagination;

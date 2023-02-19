@@ -1,7 +1,6 @@
 ﻿using AM.Portfolio.Core.Abstractions.Persistence;
-using AM.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
-
+using AM.Portfolio.Core.Persistence.Entities.Sql;
+using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using Net.Shared.Background.BackgroundTasks;
 using Net.Shared.Background.Handlers;
 

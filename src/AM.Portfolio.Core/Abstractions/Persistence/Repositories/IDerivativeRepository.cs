@@ -1,5 +1,4 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
-
+﻿using AM.Portfolio.Core.Persistence.Entities.Sql;
 using Net.Shared.Persistence.Abstractions.Repositories;
 
 using static AM.Shared.Abstractions.Constants.Enums;

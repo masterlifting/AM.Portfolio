@@ -1,14 +1,16 @@
-﻿using AM.Portfolio.Core;
-using AM.Portfolio.Core.Domain.Persistence.Entities;
-using AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+﻿using AM.Portfolio.Core.Persistence.Entities.Sql;
+using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using AM.Portfolio.Infrastructure.Settings;
-using AM.Shared.Abstractions;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using Shared.Persistence.Contexts;
+using Net.Shared.Persistence.Contexts;
+
+using CoreEnums = AM.Portfolio.Core.Constants.Enums;
+using SharedEnums = AM.Shared.Models.Constants.Enums;
+using PersistenceEnums = Net.Shared.Persistence.Models.Constants.Enums;
 
 namespace AM.Portfolio.Infrastructure.Persistence.Contexts;
 
@@ -174,242 +176,242 @@ public sealed class PostgrePortfolioContext : PostgreContext
         #region Catalogs
         //builder.Entity<Country>().HasData(new Country[]
         //{
-        //    new() {Id = (int) AM.Services.Common.Contracts.Constants.Enums.Currencies.Rub, Name = nameof(AM.Services.Common.Contracts.Constants.Enums.Currencies.Rub), Info = "₽"},
-        //    new() {Id = (int) AM.Services.Common.Contracts.Constants.Enums.Currencies.Usd, Name = nameof(AM.Services.Common.Contracts.Constants.Enums.Currencies.Usd), Info = "$"},
-        //    new() {Id = (int) AM.Services.Common.Contracts.Constants.Enums.Currencies.Eur, Name = nameof(AM.Services.Common.Contracts.Constants.Enums.Currencies.Eur), Info = "€"},
-        //    new() {Id = (int) AM.Services.Common.Contracts.Constants.Enums.Currencies.Gbp, Name = nameof(AM.Services.Common.Contracts.Constants.Enums.Currencies.Gbp), Info = "£"},
-        //    new() {Id = (int) AM.Services.Common.Contracts.Constants.Enums.Currencies.Chy, Name = nameof(AM.Services.Common.Contracts.Constants.Enums.Currencies.Chy), Info = "¥"}
+        //    new() {Id = (int) AM.Services.Common.Contracts.SharedEnums.Currencies.Rub, Name = nameof(AM.Services.Common.Contracts.SharedEnums.Currencies.Rub), Info = "₽"},
+        //    new() {Id = (int) AM.Services.Common.Contracts.SharedEnums.Currencies.Usd, Name = nameof(AM.Services.Common.Contracts.SharedEnums.Currencies.Usd), Info = "$"},
+        //    new() {Id = (int) AM.Services.Common.Contracts.SharedEnums.Currencies.Eur, Name = nameof(AM.Services.Common.Contracts.SharedEnums.Currencies.Eur), Info = "€"},
+        //    new() {Id = (int) AM.Services.Common.Contracts.SharedEnums.Currencies.Gbp, Name = nameof(AM.Services.Common.Contracts.SharedEnums.Currencies.Gbp), Info = "£"},
+        //    new() {Id = (int) AM.Services.Common.Contracts.SharedEnums.Currencies.Chy, Name = nameof(AM.Services.Common.Contracts.SharedEnums.Currencies.Chy), Info = "¥"}
         //});
         builder.Entity<ProcessStatus>().HasData(new ProcessStatus[]
         {
-        new(){Id = (int)Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Draft, Name = nameof(Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Draft), Description = "Draft" },
-        new(){Id = (int)Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Ready, Name = nameof(Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Ready), Description = "Ready to processing data" },
-        new(){Id = (int)Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Processing, Name = nameof(Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Processing), Description = "Processing data" },
-        new(){Id = (int)Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Processed, Name = nameof(Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Processed), Description = "Processed data" },
-        new(){Id = (int)Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Error, Name = nameof(Shared.Persistence.Abstractions.Constants.Enums.ProcessStatuses.Error), Description = "Error of processing" }
+        new(){Id = (int)PersistenceEnums.ProcessStatuses.Draft, Name = nameof(PersistenceEnums.ProcessStatuses.Draft), Description = "Draft" },
+        new(){Id = (int)PersistenceEnums.ProcessStatuses.Ready, Name = nameof(PersistenceEnums.ProcessStatuses.Ready), Description = "Ready to processing data" },
+        new(){Id = (int)PersistenceEnums.ProcessStatuses.Processing, Name = nameof(PersistenceEnums.ProcessStatuses.Processing), Description = "Processing data" },
+        new(){Id = (int)PersistenceEnums.ProcessStatuses.Processed, Name = nameof(PersistenceEnums.ProcessStatuses.Processed), Description = "Processed data" },
+        new(){Id = (int)PersistenceEnums.ProcessStatuses.Error, Name = nameof(PersistenceEnums.ProcessStatuses.Error), Description = "Error of processing" }
         });
         builder.Entity<ProcessStep>().HasData(new ProcessStep[]
         {
-        new(){Id = (int)Core.Constants.Enums.ProcessSteps.ParseBcsReport, Name = nameof(Core.Constants.Enums.ProcessSteps.ParseBcsReport)}
+        new(){Id = (int)CoreEnums.ProcessSteps.ParseBcsReport, Name = nameof(CoreEnums.ProcessSteps.ParseBcsReport)}
         });
         builder.Entity<AssetType>().HasData(new AssetType[]
         {
-        new() {Id = (int) Constants.Enums.AssetTypes.Valuable, Name = nameof(Constants.Enums.AssetTypes.Valuable), Description = "Valuable" },
-        new() {Id = (int) Constants.Enums.AssetTypes.Stock, Name = nameof(Constants.Enums.AssetTypes.Stock), Description = "Stocks" },
-        new() {Id = (int) Constants.Enums.AssetTypes.Bond, Name = nameof(Constants.Enums.AssetTypes.Bond), Description = "Bonds" },
-        new() {Id = (int) Constants.Enums.AssetTypes.Fund, Name = nameof(Constants.Enums.AssetTypes.Fund), Description = "Founds" },
-        new() {Id = (int) Constants.Enums.AssetTypes.CurrencyFiat, Name = nameof(Constants.Enums.AssetTypes.CurrencyFiat), Description = "Fiat currencies" },
-        new() {Id = (int) Constants.Enums.AssetTypes.CurrencyToken, Name = nameof(Constants.Enums.AssetTypes.CurrencyToken), Description = "Crypto currencies" },
-        new() {Id = (int) Constants.Enums.AssetTypes.NftToken, Name = nameof(Constants.Enums.AssetTypes.NftToken), Description = "NFT tokens"},
-        new() {Id = (int) Constants.Enums.AssetTypes.RealEstate, Name = nameof(Constants.Enums.AssetTypes.RealEstate), Description = "Real estates"},
-        new() {Id = (int) Constants.Enums.AssetTypes.PersonalEstate, Name = nameof(Constants.Enums.AssetTypes.PersonalEstate), Description = "Personal estates"}
+        new() {Id = (int) SharedEnums.AssetTypes.Valuable, Name = nameof(SharedEnums.AssetTypes.Valuable), Description = "Valuable" },
+        new() {Id = (int) SharedEnums.AssetTypes.Stock, Name = nameof(SharedEnums.AssetTypes.Stock), Description = "Stocks" },
+        new() {Id = (int) SharedEnums.AssetTypes.Bond, Name = nameof(SharedEnums.AssetTypes.Bond), Description = "Bonds" },
+        new() {Id = (int) SharedEnums.AssetTypes.Fund, Name = nameof(SharedEnums.AssetTypes.Fund), Description = "Founds" },
+        new() {Id = (int) SharedEnums.AssetTypes.CurrencyFiat, Name = nameof(SharedEnums.AssetTypes.CurrencyFiat), Description = "Fiat currencies" },
+        new() {Id = (int) SharedEnums.AssetTypes.CurrencyToken, Name = nameof(SharedEnums.AssetTypes.CurrencyToken), Description = "Crypto currencies" },
+        new() {Id = (int) SharedEnums.AssetTypes.NftToken, Name = nameof(SharedEnums.AssetTypes.NftToken), Description = "NFT tokens"},
+        new() {Id = (int) SharedEnums.AssetTypes.RealEstate, Name = nameof(SharedEnums.AssetTypes.RealEstate), Description = "Real estates"},
+        new() {Id = (int) SharedEnums.AssetTypes.PersonalEstate, Name = nameof(SharedEnums.AssetTypes.PersonalEstate), Description = "Personal estates"}
         });
         builder.Entity<Country>().HasData(new Country[]
         {
-        new() { Id = (int) Constants.Enums.Countries.Rus, Name = nameof(Constants.Enums.Countries.Rus), Description = "Russia" },
-        new() { Id = (int) Constants.Enums.Countries.Usa, Name = nameof(Constants.Enums.Countries.Usa), Description = "USA" },
-        new() { Id = (int) Constants.Enums.Countries.Chn, Name = nameof(Constants.Enums.Countries.Chn), Description = "China" },
-        new() { Id = (int) Constants.Enums.Countries.Deu, Name = nameof(Constants.Enums.Countries.Deu), Description = "Deutschland" },
-        new() { Id = (int) Constants.Enums.Countries.Gbr, Name = nameof(Constants.Enums.Countries.Gbr), Description = "Great Britain" },
-        new() { Id = (int) Constants.Enums.Countries.Che, Name = nameof(Constants.Enums.Countries.Che), Description = "Switzerland" },
-        new() { Id = (int) Constants.Enums.Countries.Jpn, Name = nameof(Constants.Enums.Countries.Jpn), Description = "Japan" }
+        new() { Id = (int) SharedEnums.Countries.Rus, Name = nameof(SharedEnums.Countries.Rus), Description = "Russia" },
+        new() { Id = (int) SharedEnums.Countries.Usa, Name = nameof(SharedEnums.Countries.Usa), Description = "USA" },
+        new() { Id = (int) SharedEnums.Countries.Chn, Name = nameof(SharedEnums.Countries.Chn), Description = "China" },
+        new() { Id = (int) SharedEnums.Countries.Deu, Name = nameof(SharedEnums.Countries.Deu), Description = "Deutschland" },
+        new() { Id = (int) SharedEnums.Countries.Gbr, Name = nameof(SharedEnums.Countries.Gbr), Description = "Great Britain" },
+        new() { Id = (int) SharedEnums.Countries.Che, Name = nameof(SharedEnums.Countries.Che), Description = "Switzerland" },
+        new() { Id = (int) SharedEnums.Countries.Jpn, Name = nameof(SharedEnums.Countries.Jpn), Description = "Japan" }
         });
         builder.Entity<Exchange>().HasData(new Exchange[]
         {
-        new() {Id = (int) Constants.Enums.Exchanges.Nasdaq, Name = nameof(Constants.Enums.Exchanges.Nasdaq) },
-        new() {Id = (int) Constants.Enums.Exchanges.Nyse, Name = nameof(Constants.Enums.Exchanges.Nyse)},
-        new() {Id = (int) Constants.Enums.Exchanges.Fwb, Name = nameof(Constants.Enums.Exchanges.Fwb)},
-        new() {Id = (int) Constants.Enums.Exchanges.Hkse, Name = nameof(Constants.Enums.Exchanges.Hkse)},
-        new() {Id = (int) Constants.Enums.Exchanges.Lse, Name = nameof(Constants.Enums.Exchanges.Lse)},
-        new() {Id = (int) Constants.Enums.Exchanges.Sse, Name = nameof(Constants.Enums.Exchanges.Sse)},
-        new() {Id = (int) Constants.Enums.Exchanges.Spbex, Name = nameof(Constants.Enums.Exchanges.Spbex)},
-        new() {Id = (int) Constants.Enums.Exchanges.Moex, Name = nameof(Constants.Enums.Exchanges.Moex)},
-        new() {Id = (int) Constants.Enums.Exchanges.Binance, Name = nameof(Constants.Enums.Exchanges.Binance)},
-        new() {Id = (int) Constants.Enums.Exchanges.Ftx2, Name = nameof(Constants.Enums.Exchanges.Ftx2)},
-        new() {Id = (int) Constants.Enums.Exchanges.Coinbase, Name = nameof(Constants.Enums.Exchanges.Coinbase)}
+        new() {Id = (int) SharedEnums.Exchanges.Nasdaq, Name = nameof(SharedEnums.Exchanges.Nasdaq) },
+        new() {Id = (int) SharedEnums.Exchanges.Nyse, Name = nameof(SharedEnums.Exchanges.Nyse)},
+        new() {Id = (int) SharedEnums.Exchanges.Fwb, Name = nameof(SharedEnums.Exchanges.Fwb)},
+        new() {Id = (int) SharedEnums.Exchanges.Hkse, Name = nameof(SharedEnums.Exchanges.Hkse)},
+        new() {Id = (int) SharedEnums.Exchanges.Lse, Name = nameof(SharedEnums.Exchanges.Lse)},
+        new() {Id = (int) SharedEnums.Exchanges.Sse, Name = nameof(SharedEnums.Exchanges.Sse)},
+        new() {Id = (int) SharedEnums.Exchanges.Spbex, Name = nameof(SharedEnums.Exchanges.Spbex)},
+        new() {Id = (int) SharedEnums.Exchanges.Moex, Name = nameof(SharedEnums.Exchanges.Moex)},
+        new() {Id = (int) SharedEnums.Exchanges.Binance, Name = nameof(SharedEnums.Exchanges.Binance)},
+        new() {Id = (int) SharedEnums.Exchanges.Ftx2, Name = nameof(SharedEnums.Exchanges.Ftx2)},
+        new() {Id = (int) SharedEnums.Exchanges.Coinbase, Name = nameof(SharedEnums.Exchanges.Coinbase)}
         });
         builder.Entity<OperationType>().HasData(new OperationType[]
         {
-        new() {Id = (int)Core.Constants.Enums.OperationTypes.Income, Name = nameof(Core.Constants.Enums.OperationTypes.Income) },
-        new() {Id = (int)Core.Constants.Enums.OperationTypes.Expense, Name = nameof(Core.Constants.Enums.OperationTypes.Expense) }
+        new() {Id = (int)CoreEnums.OperationTypes.Income, Name = nameof(CoreEnums.OperationTypes.Income) },
+        new() {Id = (int)CoreEnums.OperationTypes.Expense, Name = nameof(CoreEnums.OperationTypes.Expense) }
         });
         builder.Entity<Provider>().HasData(new Provider[]
         {
-        new() {Id = (int)Core.Constants.Enums.Providers.Safe, Name = nameof(Core.Constants.Enums.Providers.Safe), Description = "Private storage" },
-        new() {Id = (int)Core.Constants.Enums.Providers.Bcs, Name = nameof(Core.Constants.Enums.Providers.Bcs), Description = "Broker/Bank" },
-        new() {Id = (int)Core.Constants.Enums.Providers.Tinkoff, Name = nameof(Core.Constants.Enums.Providers.Tinkoff), Description = "Broker/Bank" },
-        new() {Id = (int)Core.Constants.Enums.Providers.Vtb, Name = nameof(Core.Constants.Enums.Providers.Vtb), Description = "Broker/Bank" },
-        new() {Id = (int)Core.Constants.Enums.Providers.Bitokk, Name = nameof(Core.Constants.Enums.Providers.Bitokk), Description = "Сrypto exchange https://bitokk.biz/" },
-        new() {Id = (int)Core.Constants.Enums.Providers.XChange, Name = nameof(Core.Constants.Enums.Providers.XChange), Description = "Сrypto exchange https://xchange.cash/" },
-        new() {Id = (int)Core.Constants.Enums.Providers.JetLend, Name = nameof(Core.Constants.Enums.Providers.JetLend), Description = "Crowdlending platform https://jetlend.ru/" }
+        new() {Id = (int)CoreEnums.Providers.Safe, Name = nameof(CoreEnums.Providers.Safe), Description = "Private storage" },
+        new() {Id = (int)CoreEnums.Providers.Bcs, Name = nameof(CoreEnums.Providers.Bcs), Description = "Broker/Bank" },
+        new() {Id = (int)CoreEnums.Providers.Tinkoff, Name = nameof(CoreEnums.Providers.Tinkoff), Description = "Broker/Bank" },
+        new() {Id = (int)CoreEnums.Providers.Vtb, Name = nameof(CoreEnums.Providers.Vtb), Description = "Broker/Bank" },
+        new() {Id = (int)CoreEnums.Providers.Bitokk, Name = nameof(CoreEnums.Providers.Bitokk), Description = "Сrypto exchange https://bitokk.biz/" },
+        new() {Id = (int)CoreEnums.Providers.XChange, Name = nameof(CoreEnums.Providers.XChange), Description = "Сrypto exchange https://xchange.cash/" },
+        new() {Id = (int)CoreEnums.Providers.JetLend, Name = nameof(CoreEnums.Providers.JetLend), Description = "Crowdlending platform https://jetlend.ru/" }
         });
         builder.Entity<EventType>().HasData(new EventType[]
         {
         new()
         {
-            Id = (int)Core.Constants.Enums.EventTypes.Adding,
-            Name = nameof(Core.Constants.Enums.EventTypes.Adding),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id = (int)CoreEnums.EventTypes.Adding,
+            Name = nameof(CoreEnums.EventTypes.Adding),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Increasing the asset balance"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Withdrawing,
-            Name = nameof(Core.Constants.Enums.EventTypes.Withdrawing),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.Withdrawing,
+            Name = nameof(CoreEnums.EventTypes.Withdrawing),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Decreasing the asset balance"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.BankInvestments,
-            Name= nameof(Core.Constants.Enums.EventTypes.BankInvestments),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.BankInvestments,
+            Name= nameof(CoreEnums.EventTypes.BankInvestments),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Investing in bank products"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.CrowdfundingInvestments,
-            Name= nameof(Core.Constants.Enums.EventTypes.CrowdfundingInvestments),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.CrowdfundingInvestments,
+            Name= nameof(CoreEnums.EventTypes.CrowdfundingInvestments),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Investing in crowdfunding"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.CrowdlendingInvestments,
-            Name= nameof(Core.Constants.Enums.EventTypes.CrowdlendingInvestments),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.CrowdlendingInvestments,
+            Name= nameof(CoreEnums.EventTypes.CrowdlendingInvestments),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Investing in crowdlending"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.VentureInvestments,
-            Name= nameof(Core.Constants.Enums.EventTypes.VentureInvestments),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.VentureInvestments,
+            Name= nameof(CoreEnums.EventTypes.VentureInvestments),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Venture investments"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.InterestProfit,
-            Name= nameof(Core.Constants.Enums.EventTypes.InterestProfit),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.InterestProfit,
+            Name= nameof(CoreEnums.EventTypes.InterestProfit),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Interest profit"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.InvestmentProfit,
-            Name= nameof(Core.Constants.Enums.EventTypes.InvestmentProfit),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.InvestmentProfit,
+            Name= nameof(CoreEnums.EventTypes.InvestmentProfit),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Investment profit"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.InvestmentBody,
-            Name= nameof(Core.Constants.Enums.EventTypes.InvestmentBody),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.InvestmentBody,
+            Name= nameof(CoreEnums.EventTypes.InvestmentBody),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Returning of investment body"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Splitting,
-            Name= nameof(Core.Constants.Enums.EventTypes.Splitting),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.Splitting,
+            Name= nameof(CoreEnums.EventTypes.Splitting),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Increasing an asset by dividing it"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Donation,
-            Name= nameof(Core.Constants.Enums.EventTypes.Donation),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.Donation,
+            Name= nameof(CoreEnums.EventTypes.Donation),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Increasing an asset by donation it"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Coupon,
-            Name= nameof(Core.Constants.Enums.EventTypes.Coupon),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.Coupon,
+            Name= nameof(CoreEnums.EventTypes.Coupon),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Coupons from assets"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Dividend,
-            Name= nameof(Core.Constants.Enums.EventTypes.Dividend),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Income,
+            Id= (int)CoreEnums.EventTypes.Dividend,
+            Name= nameof(CoreEnums.EventTypes.Dividend),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Income,
             Description = "Dividends from assets"
         },
 
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Delisting,
-            Name= nameof(Core.Constants.Enums.EventTypes.Delisting),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.Delisting,
+            Name= nameof(CoreEnums.EventTypes.Delisting),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Excluding an asset from lists"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.Loss,
-            Name= nameof(Core.Constants.Enums.EventTypes.Loss),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.Loss,
+            Name= nameof(CoreEnums.EventTypes.Loss),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Loss registration"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.TaxIncome,
-            Name= nameof(Core.Constants.Enums.EventTypes.TaxIncome),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.TaxIncome,
+            Name= nameof(CoreEnums.EventTypes.TaxIncome),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Tax on profit by an asset"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.TaxCountry,
-            Name= nameof(Core.Constants.Enums.EventTypes.TaxCountry),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.TaxCountry,
+            Name= nameof(CoreEnums.EventTypes.TaxCountry),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Internal tax of country"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.TaxDeal,
-            Name= nameof(Core.Constants.Enums.EventTypes.TaxDeal),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.TaxDeal,
+            Name= nameof(CoreEnums.EventTypes.TaxDeal),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Tax for a deal"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.TaxProvider,
-            Name= nameof(Core.Constants.Enums.EventTypes.TaxProvider),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.TaxProvider,
+            Name= nameof(CoreEnums.EventTypes.TaxProvider),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Tax to provider"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.TaxDepositary,
-            Name= nameof(Core.Constants.Enums.EventTypes.TaxDepositary),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.TaxDepositary,
+            Name= nameof(CoreEnums.EventTypes.TaxDepositary),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Tax to depositary of an asset"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.ComissionDeal,
-            Name= nameof(Core.Constants.Enums.EventTypes.ComissionDeal),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.ComissionDeal,
+            Name= nameof(CoreEnums.EventTypes.ComissionDeal),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Commission for a deal"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.ComissionProvider,
-            Name= nameof(Core.Constants.Enums.EventTypes.ComissionProvider),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.ComissionProvider,
+            Name= nameof(CoreEnums.EventTypes.ComissionProvider),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Commission to provider"
         },
         new()
         {
-            Id= (int)Core.Constants.Enums.EventTypes.ComissionDepositary,
-            Name= nameof(Core.Constants.Enums.EventTypes.ComissionDepositary),
-            OperationTypeId = (int)Core.Constants.Enums.OperationTypes.Expense,
+            Id= (int)CoreEnums.EventTypes.ComissionDepositary,
+            Name= nameof(CoreEnums.EventTypes.ComissionDepositary),
+            OperationTypeId = (int)CoreEnums.OperationTypes.Expense,
             Description = "Commission to depositary of an asset"
         } });
         #endregion

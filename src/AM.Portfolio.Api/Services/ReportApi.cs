@@ -1,7 +1,6 @@
 ﻿using AM.Portfolio.Api.Services.Interfaces;
 using AM.Portfolio.Core.Abstractions.Persistence;
-using AM.Portfolio.Core.Domain.Persistence.Collections;
-
+using AM.Portfolio.Core.Persistence.Entities.NoSql;
 using Microsoft.AspNetCore.Http;
 
 using Shared.Models.Results;
@@ -11,7 +10,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-using static Net.Shared.Persistence.Abstractions.Constants.Enums;
+using static Net.Shared.Persistence.Models.Constants.Enums;
 
 namespace AM.Portfolio.Api.Services
 {

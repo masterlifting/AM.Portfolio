@@ -1,9 +1,8 @@
 ﻿using Net.Shared.Persistence.Abstractions.Entities;
-using Net.Shared.Persistence.Abstractions.Entities.Catalogs;
 
-namespace AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+namespace AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 
-public sealed class Provider : PersistentCatalog, IPersistentSql
+public sealed class Provider : Shared.Models.Persistence.Entities.Catalogs.PersistentCatalog, IPersistentSql, IPersistentCatalog
 {
     public IEnumerable<Deal>? Deals { get; set; }
     public IEnumerable<Event>? Events { get; set; }

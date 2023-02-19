@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-
-using AM.Portfolio.Core.Abstractions.Persistence;
-using AM.Portfolio.Core.Domain.Persistence.Collections;
+﻿using AM.Portfolio.Core.Abstractions.Persistence;
+using AM.Portfolio.Core.Persistence.Entities.NoSql;
 using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 using AM.Portfolio.Worker.Exceptions;
 
-using Net.Shared.Background.Abstractions.Interfaces;
+using Net.Shared.Background.Abstractions;
 using Net.Shared.Persistence.Abstractions.Entities;
 using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
-using static Net.Shared.Persistence.Abstractions.Constants.Enums;
+using static Net.Shared.Persistence.Models.Constants.Enums;
 
 namespace AM.Portfolio.Worker.BackgroundTasksSteps;
 
@@ -25,7 +23,14 @@ public class BcsReportParser : IProcessStepHandler
         _workQueue = workQueue;
     }
 
-    public Task HandleStepAsync(IEnumerable<IPersistentProcess> entities, CancellationToken cToken) => HandleAsync((IEnumerable<IncomingData>)entities, cToken);
+    public Task HandleStepAsync(IEnumerable<IPersistentProcess> entities, CancellationToken cToken)
+    {
+        var _entities = entities is IEnumerable<IncomingData>
+            ? entities as IEnumerable<IncomingData>
+            : throw new AmPortfolioWorkerException($"The type {entities.GetType()} is incorrect.");
+
+        return HandleAsync(_entities!, cToken);
+    }
     public Task<IReadOnlyCollection<IPersistentProcess>> HandleStepAsync(CancellationToken cToken) => HandleAsync(cToken);
 
     private Task HandleAsync(IEnumerable<IncomingData> entities, CancellationToken cToken) =>
@@ -60,8 +65,8 @@ public class BcsReportParser : IProcessStepHandler
                 x.Error = $"Source: {x.PayloadSource}. " + exception.Message;
             }
         }, cToken)));
-    private async Task<IReadOnlyCollection<IPersistentProcess>> HandleAsync(CancellationToken cToken)
+    private Task<IReadOnlyCollection<IPersistentProcess>> HandleAsync(CancellationToken cToken)
     {
-        return new List<IncomingData>().AsReadOnly();
+        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,5 @@
 ﻿using AM.Portfolio.Api.Models;
-using AM.Portfolio.Core.Domain.Persistence.Entities;
-
+using AM.Portfolio.Core.Persistence.Entities.Sql;
 using Shared.Models.Pagination;
 using Shared.Models.Results;
 

@@ -1,4 +1,4 @@
-﻿using AM.Portfolio.Core.Domain.Persistence.Entities;
+﻿using AM.Portfolio.Core.Persistence.Entities.Sql;
 using AM.Portfolio.Core.Services.BcsServices.Models;
 
 namespace AM.Portfolio.Core.Services.BcsServices.Interfaces;

@@ -1,10 +1,10 @@
-﻿using AM.Shared.Abstractions.Persistence.Entities.Catalogs;
+﻿using AM.Shared.Models.Persistence.Entities.Catalogs;
 
 using Net.Shared.Persistence.Abstractions.Entities;
 
-namespace AM.Portfolio.Core.Domain.Persistence.Entities.Catalogs;
+namespace AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 
-public sealed class ProcessStatus : ProcessStatusBase, IPersistentSql
+public sealed class ProcessStatus : PersistentProcessStatus, IPersistentSql, IPersistentCatalog
 {
     public IEnumerable<Asset>? Assets { get; set; }
     public IEnumerable<Derivative>? Derivatives { get; set; }
