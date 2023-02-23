@@ -2,6 +2,8 @@
 using AM.Portfolio.Core.Abstractions.Persistence;
 using AM.Portfolio.Core.Abstractions.Persistence.Repositories;
 using AM.Portfolio.Core.Abstractions.WebServices;
+using AM.Portfolio.Core.Persistence.Entities.NoSql;
+using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
 using AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
 using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 using AM.Portfolio.Infrastructure.ExcelServices;
@@ -15,42 +17,38 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Net.Shared.Persistence.Abstractions.Contexts;
-using Net.Shared.Persistence.Abstractions.Entities.Catalogs;
-using Net.Shared.Persistence.Abstractions.Entities;
 using Net.Shared.Persistence.Abstractions.Repositories;
+using Net.Shared.Persistence.Repositories;
 using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 using Net.Shared.Queues.Domain.WorkQueue;
 
 using Polly;
-using Net.Shared.Persistence.Repositories;
-using AM.Portfolio.Core.Persistence.Entities.Sql.Catalogs;
-using AM.Portfolio.Core.Persistence.Entities.NoSql;
 
 namespace AM.Portfolio.Infrastructure;
 
-public static class PortfolioServicesRegistration
+public static partial class PortfolioServicesRegistration
 {
-    public static void AddPortfolioCoreServices(this IServiceCollection services)
+    public static void AddPortfolioWorkerInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        AddPortfolioApiInfrastructureServices(services, configuration);
+
+        services.AddScoped<IPersistenceRepository<IncomingData>, MongoRepository<IncomingData>>();
+        services.AddScoped<IPersistenceRepository<ProcessStep>, PostgreRepository<ProcessStep>>();
+    }
+    public static void AddPortfolioApiInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddPortfolioApiInfrastructureServices(configuration);
+    }
+}
+
+public static partial class PortfolioServicesRegistration
+{
+    private static void AddPortfolioLogic(this IServiceCollection services)
     {
         services.AddTransient<IPortfolioExcelService, PortfolioExcelService>();
         services.AddTransient<IBcsReportService, BcsReportService>();
     }
-
-    public static void AddPortfolioWorkerPersistence(this IServiceCollection services, IConfiguration configuration)
-    {
-        AddPortfolioApiPersistence(services, configuration);
-
-        services.AddScoped<IPersistenceRepository<IncomingData>, MongoRepository<IncomingData>>();
-        services.AddScoped<IPersistenceRepository<ProcessStep>, PostgreRepository<ProcessStep>>();
-
-
-    }
-    public static void AddPortfolioApiPersistence(this IServiceCollection services, IConfiguration configuration)
-    {
-        AddPortfolioApiPersistence(services, configuration);
-    }
-
-    private static void AddPortfolioPersistence(IServiceCollection services, IConfiguration configuration)
+    private static void AddPortfolioPersistence(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<DatabaseConnectionSection>(configuration.GetSection(DatabaseConnectionSection.Name));
 
@@ -71,7 +69,7 @@ public static class PortfolioServicesRegistration
 
         services.AddTransient<IWorkQueue, WorkQueue>();
     }
-    public static void AddPortfolioHttpClients(this IServiceCollection services, IConfiguration configuration)
+    private static void AddPortfolioWeb(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<WebclientConnectionSection>(configuration.GetSection(WebclientConnectionSection.Name));
 

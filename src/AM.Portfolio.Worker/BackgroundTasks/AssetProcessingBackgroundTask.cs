@@ -9,7 +9,7 @@ namespace AM.Portfolio.Worker.BackgroundTasks;
 public sealed class AssetProcessingBackgroundTask : ProcessingBackgroundTask<Asset, ProcessStep>
 {
     public AssetProcessingBackgroundTask(ILogger<AssetProcessingBackgroundTask> logger, IUnitOfWorkRepository unitOfWork)
-        : base(logger, unitOfWork.Asset, unitOfWork.ProcessStep, new BackgroundTaskStepHandler<Asset>(new() { }))
+        : base(logger, unitOfWork.Asset, unitOfWork.ProcessStep, new BackgroundTaskHandler<Asset>(new() { }))
     {
     }
 }

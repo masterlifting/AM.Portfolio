@@ -4,14 +4,13 @@ using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 using AM.Portfolio.Worker.Exceptions;
 
 using Net.Shared.Background.Abstractions;
-using Net.Shared.Persistence.Abstractions.Entities;
 using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
 using static Net.Shared.Persistence.Models.Constants.Enums;
 
 namespace AM.Portfolio.Worker.BackgroundTasksSteps;
 
-public class BcsReportParser : IProcessStepHandler
+public class BcsReportParser : IBackgroundTaskHandler<IncomingData>
 {
     private readonly IUnitOfWorkRepository _uow;
     private readonly IWorkQueue _workQueue;
@@ -23,17 +22,7 @@ public class BcsReportParser : IProcessStepHandler
         _workQueue = workQueue;
     }
 
-    public Task HandleStepAsync(IEnumerable<IPersistentProcess> entities, CancellationToken cToken)
-    {
-        var _entities = entities is IEnumerable<IncomingData>
-            ? entities as IEnumerable<IncomingData>
-            : throw new AmPortfolioWorkerException($"The type {entities.GetType()} is incorrect.");
-
-        return HandleAsync(_entities!, cToken);
-    }
-    public Task<IReadOnlyCollection<IPersistentProcess>> HandleStepAsync(CancellationToken cToken) => HandleAsync(cToken);
-
-    private Task HandleAsync(IEnumerable<IncomingData> entities, CancellationToken cToken) =>
+    public Task Handle(IEnumerable<IncomingData> entities, CancellationToken cToken) =>
         Task.WhenAll(entities.Select(x => Task.Run(async () =>
         {
             try
@@ -65,7 +54,7 @@ public class BcsReportParser : IProcessStepHandler
                 x.Error = $"Source: {x.PayloadSource}. " + exception.Message;
             }
         }, cToken)));
-    private Task<IReadOnlyCollection<IPersistentProcess>> HandleAsync(CancellationToken cToken)
+    public Task<IReadOnlyCollection<IncomingData>> Handle(CancellationToken cToken)
     {
         throw new NotImplementedException();
     }

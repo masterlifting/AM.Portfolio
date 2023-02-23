@@ -8,7 +8,7 @@ namespace AM.Portfolio.Worker.BackgroundTasks;
 public sealed class DealProcessingBackgroundTask : ProcessingBackgroundTask
 {
     public DealProcessingBackgroundTask(ILogger<DealProcessingBackgroundTask> logger, IUnitOfWorkRepository unitOfWork)
-        : base(logger, unitOfWork.Deal, unitOfWork.ProcessStep, new BackgroundTaskStepHandler(new() { }))
+        : base(logger, unitOfWork.Deal, unitOfWork.ProcessStep, new BackgroundTaskHandler(new() { }))
     {
     }
 }

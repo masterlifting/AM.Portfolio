@@ -6,6 +6,8 @@ using AM.Portfolio.Worker.BackgroundTasksSteps;
 
 using Net.Shared.Background.BackgroundTasks;
 using Net.Shared.Background.Handlers;
+using Net.Shared.Persistence.Abstractions.Entities;
+using Net.Shared.Persistence.Abstractions.Entities.Catalogs;
 using Net.Shared.Persistence.Abstractions.Repositories;
 using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
 
@@ -13,18 +15,23 @@ using static AM.Portfolio.Core.Constants.Enums;
 
 namespace AM.Portfolio.Worker.BackgroundTasks;
 
-public sealed class IncomingDataProcessingBackgroundTask : ProcessingBackgroundTask
+public sealed class ProcessingIncomingDataBackgroundTask : ProcessingBackgroundTask
 {
-    public IncomingDataProcessingBackgroundTask(
-        ILogger<IncomingDataProcessingBackgroundTask> logger
+    public ProcessingIncomingDataBackgroundTask(
+        ILogger<ProcessingIncomingDataBackgroundTask> logger
         , IPersistenceRepository<IncomingData> processRepository
         , IPersistenceRepository<ProcessStep> processStepRepository
         , IBcsReportService service
         , IUnitOfWorkRepository uow
         , IWorkQueue workQueue)
-        : base( logger , processRepository, processStepRepository, new BackgroundTaskStepHandler(new()
+        : base(
+            logger
+            , (IPersistenceRepository<IPersistentProcess>)processRepository
+            , (IPersistenceRepository<IPersistentProcessStep>)processStepRepository
+            , (BackgroundTaskHandler<IPersistentProcess>) new BackgroundTaskHandler<IncomingData>(new()
                 {
-                    {(int)ProcessSteps.ParseBcsReport, new BcsReportParser(service, uow, workQueue)}
+                    {new ProcessStep(), new BcsReportParser(service, uow, workQueue)}
                 }))
-    { }
+    {
+    }
 }
