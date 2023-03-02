@@ -6,7 +6,7 @@ using Net.Shared.Background.Models.Settings;
 
 namespace AM.Portfolio.Worker;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args) =>
         Host.CreateDefaultBuilder(args)

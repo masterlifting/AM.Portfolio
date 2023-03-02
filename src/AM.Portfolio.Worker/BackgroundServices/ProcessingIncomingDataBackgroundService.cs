@@ -11,9 +11,8 @@ namespace AM.Portfolio.Worker.BackgroundServices;
 
 public sealed class ProcessingIncomingDataBackgroundService : ProcessingBackgroundService<ProcessingIncomingDataBackgroundTask, IncomingData, ProcessStep>
 {
-    public ProcessingIncomingDataBackgroundService( 
-        IServiceScopeFactory scopeFactory, 
-        IOptionsMonitor<BackgroundTaskSection> options, 
-        ILogger<ProcessingIncomingDataBackgroundService> logger)
-         : base(options, logger, scopeFactory) { }
+    public ProcessingIncomingDataBackgroundService(
+        IServiceScopeFactory scopeFactory,
+        IOptionsMonitor<BackgroundTaskSection> options,
+        ILogger<ProcessingIncomingDataBackgroundService> logger) : base(options, logger, scopeFactory) { }
 }

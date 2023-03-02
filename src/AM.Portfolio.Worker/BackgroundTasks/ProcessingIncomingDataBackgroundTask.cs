@@ -18,15 +18,11 @@ public sealed class ProcessingIncomingDataBackgroundTask : ProcessingBackgroundT
         ILogger<ProcessingIncomingDataBackgroundTask> logger,
         IUnitOfWorkRepository uow,
         IBcsReportService service,
-        IWorkQueue workQueue)
-        : base(
-            logger
-            , uow.IncomingData
-            , uow.ProcessStep
-            ,  new BackgroundTaskHandler<IncomingData>(new()
-                {
-                    {(int)ProcessSteps.ParseBcsReport, new BcsReportParser(service, uow, workQueue)}
-                }))
+        IWorkQueue workQueue) : base(logger, uow.IncomingData, uow.ProcessStep,
+            new BackgroundTaskHandler<IncomingData>(new()
+            {
+                {(int)ProcessSteps.ParseBcsReport, new BcsReportParser(service, uow, workQueue)}
+            }))
     {
     }
 }
