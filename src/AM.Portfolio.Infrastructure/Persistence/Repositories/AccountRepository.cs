@@ -21,7 +21,7 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
 
         public async Task<Account> GetAccountAsync(string agreement, Guid userId, int providerId)
         {
-            var account = await _context.FindSingleAsync<Account>(x => x.UserId == userId && x.ProviderId == providerId && x.Name == agreement);
+            var account = await _context.FindSingle<Account>(x => x.UserId == userId && x.ProviderId == providerId && x.Name == agreement);
             return account ?? throw new PortfolioInfrastructureException(nameof(AccountRepository), nameof(GetAccountAsync), new($"Account for the agreement '{agreement}' was not found"));
         }
     }

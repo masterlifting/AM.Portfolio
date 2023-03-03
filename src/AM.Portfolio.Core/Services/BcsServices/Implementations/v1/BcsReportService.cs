@@ -184,7 +184,7 @@ public sealed class BcsReportService : IBcsReportService
         };
     }
 
-    public async Task<Event[]> GetEventsAsync(Guid userId, string agreement, IList<BcsReportEventModel> models, CancellationToken cToken = default)
+    public async Task<Event[]> GetEvents(Guid userId, string agreement, IList<BcsReportEventModel> models, CancellationToken cToken = default)
     {
         var result = new List<Event>(models.Count);
 
@@ -197,7 +197,7 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetEventsAsync), new($"'Asset '{item.Asset}' was not recognized as derivative"));
+                throw new PortfolioCoreException(Initiator, nameof(GetEvents), new($"'Asset '{item.Asset}' was not recognized as derivative"));
 
             var derivative = derivativeDictionary[item.Asset].First();
 
@@ -219,7 +219,7 @@ public sealed class BcsReportService : IBcsReportService
 
         return result.ToArray();
     }
-    public async Task<Deal[]> GetDealsAsync(Guid userId, string agreement, IList<BcsReportDealModel> models, CancellationToken cToken = default)
+    public async Task<Deal[]> GetDeals(Guid userId, string agreement, IList<BcsReportDealModel> models, CancellationToken cToken = default)
     {
         var result = new List<Deal>(models.Count);
 
@@ -232,9 +232,9 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.IncomeEvent.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetDealsAsync), new($"'Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative"));
+                throw new PortfolioCoreException(Initiator, nameof(GetDeals), new($"'Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative"));
             if (!derivativeDictionary.ContainsKey(item.ExpenseEvent.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetDealsAsync), new($"'Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative"));
+                throw new PortfolioCoreException(Initiator, nameof(GetDeals), new($"'Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative"));
 
             var derivativeIncome = derivativeDictionary[item.IncomeEvent.Asset].First();
             var derivativeExpense = derivativeDictionary[item.ExpenseEvent.Asset].First();

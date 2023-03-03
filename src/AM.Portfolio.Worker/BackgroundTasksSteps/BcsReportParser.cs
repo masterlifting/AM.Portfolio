@@ -29,21 +29,21 @@ public class BcsReportParser : IBackgroundTaskHandler<IncomingData>
             {
                 var reportModel = _service.GetReportModel(x.PayloadSource, x.Payload);
 
-                var deals = await _service.GetDealsAsync(x.UserId, reportModel.Agreement, reportModel.Deals, cToken);
-                var events = await _service.GetEventsAsync(x.UserId, reportModel.Agreement, reportModel.Events, cToken);
+                var deals = await _service.GetDeals(x.UserId, reportModel.Agreement, reportModel.Deals, cToken);
+                var events = await _service.GetEvents(x.UserId, reportModel.Agreement, reportModel.Events, cToken);
 
-                await _workQueue.ProcessAsync(async () =>
+                await _workQueue.Process(async () =>
                 {
                     try
                     {
-                        await _uow.PostgreContext.StartTransactionAsync(cToken);
-                        await _uow.Deal.Writer.CreateManyAsync(deals, cToken);
-                        await _uow.Event.Writer.CreateManyAsync(events, cToken);
-                        await _uow.PostgreContext.CommitTransactionAsync(cToken);
+                        await _uow.PostgreContext.StartTransaction(cToken);
+                        await _uow.Deal.Writer.CreateMany(deals, cToken);
+                        await _uow.Event.Writer.CreateMany(events, cToken);
+                        await _uow.PostgreContext.CommitTransaction(cToken);
                     }
                     catch (Exception exeption)
                     {
-                        await _uow.PostgreContext.RollbackTransactionAsync(cToken);
+                        await _uow.PostgreContext.RollbackTransaction(cToken);
                         throw new AmPortfolioWorkerException(exeption);
                     }
                 });

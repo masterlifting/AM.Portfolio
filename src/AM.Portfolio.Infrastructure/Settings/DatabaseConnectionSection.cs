@@ -5,6 +5,6 @@ namespace AM.Portfolio.Infrastructure.Settings;
 public sealed class DatabaseConnectionSection
 {
     public const string Name = "DatabaseConnections";
-    public PostgreSQLConnectionSettings PostgreSQL { get; set; } = null!;
-    public MongoDBConnectionSettings MongoDB { get; set; } = null!;
+    public PostgreConnectionSettings PostgreSQL { get; set; } = null!;
+    public MongoConnectionSettings MongoDB { get; set; } = null!;
 }

@@ -26,6 +26,6 @@ namespace AM.Portfolio.Infrastructure.Persistence.Repositories
                 .Where(x => x.Asset.TypeId == (int)type)
                 .ToArrayAsync();
 
-        public Task<Derivative[]> GetDerivativesAsync() => _context.FindManyAsync<Derivative>(x => true);
+        public Task<Derivative[]> GetDerivativesAsync() => _context.FindMany<Derivative>(x => true);
     }
 }

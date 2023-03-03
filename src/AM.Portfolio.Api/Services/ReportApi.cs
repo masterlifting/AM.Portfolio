@@ -60,7 +60,7 @@ namespace AM.Portfolio.Api.Services
                 });
             }
 
-            return await _unitOfWork.IncomingData.Writer.TryCreateManyAsync(reports);
+            return await _unitOfWork.IncomingData.Writer.TryCreateMany(reports);
         }
     }
 }
