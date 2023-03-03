@@ -1,6 +1,5 @@
 ﻿using AM.Portfolio.Core.Models.WebClient;
-
-using static AM.Shared.Abstractions.Constants.Enums;
+using static AM.Shared.Models.Constants.Enums;
 
 namespace AM.Portfolio.Core.Abstractions.WebServices;
 

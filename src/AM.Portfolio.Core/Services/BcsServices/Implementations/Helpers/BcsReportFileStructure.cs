@@ -1,5 +1,5 @@
-using static AM.Shared.Abstractions.Constants.Enums;
 using static AM.Portfolio.Core.Constants.Enums;
+using static AM.Shared.Models.Constants.Enums;
 
 namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
 

@@ -1,14 +1,13 @@
-﻿using AM.Services.Portfolio.Core.Exceptions;
-
-using static AM.Shared.Abstractions.Constants.Enums;
-using static AM.Portfolio.Core.Constants.Enums;
-using static Net.Shared.Persistence.Models.Constants.Enums;
-using AM.Portfolio.Core.Services.BcsServices.Models;
+﻿using AM.Portfolio.Core.Abstractions.ExcelService;
 using AM.Portfolio.Core.Abstractions.Persistence;
-using AM.Portfolio.Core.Abstractions.ExcelService;
+using AM.Portfolio.Core.Exceptions;
+using AM.Portfolio.Core.Persistence.Entities.Sql;
 using AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers;
 using AM.Portfolio.Core.Services.BcsServices.Interfaces;
-using AM.Portfolio.Core.Persistence.Entities.Sql;
+using AM.Portfolio.Core.Services.BcsServices.Models;
+using static AM.Portfolio.Core.Constants.Enums;
+using static AM.Shared.Models.Constants.Enums;
+using static Net.Shared.Persistence.Models.Constants.Enums;
 
 namespace AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
 
@@ -116,7 +115,7 @@ public sealed class BcsReportService : IBcsReportService
 
             while (!excel.TryGetCellValue(++rowId, 1, "Итого по валюте Рубль:", out patternKey))
                 if (patternKey is not null && !BcsReportFileStructure.ComissionEvents.ContainsKey(patternKey))
-                    throw new PortfolioCoreException(Initiator, "Cheacking comission", new($"Comission: '{patternKey}' was not recognezed"));
+                    throw new AmPortfolioCoreException(Initiator, "Cheacking comission", new($"Comission: '{patternKey}' was not recognezed"));
         }
 
         var dealsBlock = fileStructure.Keys.FirstOrDefault(x => x.IndexOf(BcsReportFileStructure.Points.DealsBlock, StringComparison.OrdinalIgnoreCase) > -1);
@@ -169,7 +168,7 @@ public sealed class BcsReportService : IBcsReportService
                         _dealPatterns[keyWord](rowId, excel, value, deals);
                     }
                     else
-                        throw new PortfolioCoreException(Initiator, $"Parsing '{lastBlock}'", new($"PatternKey '{patternKey}' was not recognezed in the row '{rowId + 1}'"));
+                        throw new AmPortfolioCoreException(Initiator, $"Parsing '{lastBlock}'", new($"PatternKey '{patternKey}' was not recognezed in the row '{rowId + 1}'"));
                 }
             }
         }
@@ -197,7 +196,7 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetEvents), new($"'Asset '{item.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException(Initiator, nameof(GetEvents), new($"'Asset '{item.Asset}' was not recognized as derivative"));
 
             var derivative = derivativeDictionary[item.Asset].First();
 
@@ -232,9 +231,9 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.IncomeEvent.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetDeals), new($"'Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException(Initiator, nameof(GetDeals), new($"'Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative"));
             if (!derivativeDictionary.ContainsKey(item.ExpenseEvent.Asset))
-                throw new PortfolioCoreException(Initiator, nameof(GetDeals), new($"'Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException(Initiator, nameof(GetDeals), new($"'Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative"));
 
             var derivativeIncome = derivativeDictionary[item.IncomeEvent.Asset].First();
             var derivativeExpense = derivativeDictionary[item.ExpenseEvent.Asset].First();
@@ -275,7 +274,7 @@ public sealed class BcsReportService : IBcsReportService
         var action = nameof(ParseBalance);
 
         if (!BcsReportFileStructure.BalanceEvents.ContainsKey(value))
-            throw new PortfolioCoreException(Initiator, action, new($"Event type '{value}' not recognized"));
+            throw new AmPortfolioCoreException(Initiator, action, new($"Event type '{value}' not recognized"));
 
         var eventData = BcsReportHelper.GetBalanceEventData(value, action);
 
@@ -294,7 +293,7 @@ public sealed class BcsReportService : IBcsReportService
 
         var info = excel.GetCellValue(rowId, 14);
         if (info is null)
-            throw new PortfolioCoreException(Initiator, action, new("Description not found"));
+            throw new AmPortfolioCoreException(Initiator, action, new("Description not found"));
 
         var _currency = BcsReportHelper.GetCurrency(currency, action);
         var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
@@ -448,7 +447,7 @@ public sealed class BcsReportService : IBcsReportService
 
         var isin = excel.GetCellValue(rowId, 7);
         if (isin is null)
-            throw new PortfolioCoreException(Initiator, nameof(ParseTransactions), new("ISIN not recognized"));
+            throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("ISIN not recognized"));
 
         var asset = excel.GetCellValue(rowId, 1);
 
@@ -463,12 +462,12 @@ public sealed class BcsReportService : IBcsReportService
 
                 var currencyCode = excel.GetCellValue(rowId, 10);
                 if (currencyCode is null)
-                    throw new PortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
+                    throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
                 var currencyName = currencyCode switch
                 {
                     "USD" => Currencies.Usd.ToString(),
                     "Рубль" => Currencies.Rub.ToString(),
-                    _ => throw new PortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not recognized"))
+                    _ => throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not recognized"))
                 };
 
                 var decreasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 5), action);
@@ -503,12 +502,12 @@ public sealed class BcsReportService : IBcsReportService
 
                 var currencyCode = excel.GetCellValue(rowId, 10);
                 if (currencyCode is null)
-                    throw new PortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
+                    throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
                 var currencyName = currencyCode switch
                 {
                     "USD" => Currencies.Usd.ToString(),
                     "Рубль" => Currencies.Rub.ToString(),
-                    _ => throw new PortfolioCoreException(Initiator, nameof(ParseTransactions), new("Cirrency not recognized"))
+                    _ => throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Cirrency not recognized"))
                 };
 
                 var increasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 8), action);

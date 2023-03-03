@@ -32,6 +32,8 @@ public static partial class PortfolioServicesRegistration
     }
     public static void AddPortfolioApiInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddMemoryCache();
+
         services.AddPortfolioPersistence(configuration);
 
         services.AddPortfolioLogic();
@@ -41,7 +43,6 @@ public static partial class PortfolioServicesRegistration
         services.AddHttpClient<IMoexWebclient, MoexWebclient>()
             .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))))
             .AddTransientHttpErrorPolicy(policy => policy.CircuitBreakerAsync(3, TimeSpan.FromSeconds(30)));
-
     }
 }
 

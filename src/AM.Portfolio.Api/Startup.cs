@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Shared.Extensions.Serialization;
+using Net.Shared.Extensions;
 
 namespace AM.Portfolio.Api;
 
@@ -19,12 +19,7 @@ public sealed class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddMemoryCache();
-
-        services.AddPortfolioPersistence(Configuration);
-        services.AddPortfolioCoreServices();
-
-        services.AddPortfolioHttpClients(Configuration);
+        services.AddPortfolioApiInfrastructureServices(Configuration);
 
         services.AddControllers().AddJsonOptions(x =>
         {
@@ -33,8 +28,6 @@ public sealed class Startup
         });
 
         services.AddTransient<IReportApi, ReportApi>();
-
-        //services.AddRabbitMq(Configuration);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

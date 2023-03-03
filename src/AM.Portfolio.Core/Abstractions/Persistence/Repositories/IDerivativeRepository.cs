@@ -1,7 +1,6 @@
 ﻿using AM.Portfolio.Core.Persistence.Entities.Sql;
 using Net.Shared.Persistence.Abstractions.Repositories;
-
-using static AM.Shared.Abstractions.Constants.Enums;
+using static AM.Shared.Models.Constants.Enums;
 
 namespace AM.Portfolio.Core.Abstractions.Persistence.Repositories
 {

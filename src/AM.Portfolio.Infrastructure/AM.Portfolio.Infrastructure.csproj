@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AM.Portfolio.Core\AM.Portfolio.Core.csproj" />
     <ProjectReference Include="..\..\submodules\Net.Shared.Persistence\src\Net.Shared.Persistence\Net.Shared.Persistence.csproj" />
     <ProjectReference Include="..\..\submodules\Net.Shared.Queues\src\Net.Shared.Queues\Net.Shared.Queues.csproj" />
     <ProjectReference Include="..\..\submodules\Net.Shared.Web\src\Net.Shared.Web\Net.Shared.Web.csproj" />
-    <ProjectReference Include="..\AM.Portfolio.Core\AM.Portfolio.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,4 @@
-﻿using AM.Shared.Models.Persistence.Entities.Catalogs;
-
-using Net.Shared.Persistence.Abstractions.Entities;
+﻿using Net.Shared.Persistence.Abstractions.Entities;
 using Net.Shared.Persistence.Abstractions.Entities.Catalogs;
 using Net.Shared.Persistence.Models.Entities.Catalogs;
 

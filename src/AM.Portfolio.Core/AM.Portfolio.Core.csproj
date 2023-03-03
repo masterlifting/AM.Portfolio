@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\submodules\AM.Shared\src\AM.Shared.Abstractions\AM.Shared.Abstractions.csproj" />
     <ProjectReference Include="..\..\submodules\Net.Shared.Background\src\Net.Shared.Background.Abstractions\Net.Shared.Background.Abstractions.csproj" />
     <ProjectReference Include="..\..\submodules\Net.Shared.Queues\src\Net.Shared.Queues.Abstractions\Net.Shared.Queues.Abstractions.csproj" />
+    <ProjectReference Include="..\..\submodules\Net.Shared.Extensions\src\Net.Shared.Extensions\Net.Shared.Extensions.csproj" />
   </ItemGroup>
 
 </Project>
