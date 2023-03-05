@@ -15,8 +15,6 @@ public sealed class BcsReportService : IBcsReportService
 {
     private const int ProviderId = (int)Providers.Bcs;
 
-    private const string Initiator = nameof(BcsReportService);
-
     private readonly IPortfolioExcelService _excelService;
     private readonly IUnitOfWorkRepository _uow;
 
@@ -85,7 +83,9 @@ public sealed class BcsReportService : IBcsReportService
             var border = fileStructure.Skip(1).First().Key;
 
             while (!excel.TryGetCellValue(++rowId, 1, border, out patternKey))
+            {
                 if (patternKey is not null)
+                {
                     switch (patternKey)
                     {
                         case "USD":
@@ -95,6 +95,8 @@ public sealed class BcsReportService : IBcsReportService
                             InvokeAction(patternKey, Currencies.Rub);
                             break;
                     }
+                }
+            }
 
             void InvokeAction(string value, Currencies currency)
             {
@@ -102,8 +104,8 @@ public sealed class BcsReportService : IBcsReportService
                 {
                     patternKey = excel.GetCellValue(rowId, 2);
 
-                    if (patternKey is not null && _eventPatterns.ContainsKey(patternKey))
-                        _eventPatterns[patternKey](rowId, excel, patternKey, currency, events);
+                    if (patternKey is not null && _eventPatterns.TryGetValue(patternKey, out var function))
+                        function(rowId, excel, patternKey, currency, events);
                 }
             }
         }
@@ -114,8 +116,10 @@ public sealed class BcsReportService : IBcsReportService
             rowId = fileStructure[comissionsBlock] + 3;
 
             while (!excel.TryGetCellValue(++rowId, 1, "Итого по валюте Рубль:", out patternKey))
+            {
                 if (patternKey is not null && !BcsReportFileStructure.ComissionEvents.ContainsKey(patternKey))
-                    throw new AmPortfolioCoreException(Initiator, "Cheacking comission", new($"Comission: '{patternKey}' was not recognezed"));
+                    throw new AmPortfolioCoreException($"Cheacking comission '{patternKey}' was not recognezed");
+            }
         }
 
         var dealsBlock = fileStructure.Keys.FirstOrDefault(x => x.IndexOf(BcsReportFileStructure.Points.DealsBlock, StringComparison.OrdinalIgnoreCase) > -1);
@@ -134,8 +138,8 @@ public sealed class BcsReportService : IBcsReportService
             {
                 patternKey = excel.GetCellValue(rowId, 6);
 
-                if (patternKey is not null && _dealPatterns.ContainsKey(patternKey))
-                    _dealPatterns[patternKey](rowId, excel, patternKey, deals);
+                if (patternKey is not null && _dealPatterns.TryGetValue(patternKey, out var function))
+                    function(rowId, excel, patternKey, deals);
             }
         }
 
@@ -148,8 +152,7 @@ public sealed class BcsReportService : IBcsReportService
             {
                 patternKey = excel.GetCellValue(rowId, 12);
 
-                if (patternKey is not null
-                    && patternKey.Length > 5
+                if (patternKey?.Length > 5
                     && !int.TryParse(patternKey[0..3], out _)
                     && !BcsReportFileStructure.LastBlockExceptedWords.Any(x => patternKey.IndexOf(x, StringComparison.OrdinalIgnoreCase) > -1))
                 {
@@ -168,7 +171,9 @@ public sealed class BcsReportService : IBcsReportService
                         _dealPatterns[keyWord](rowId, excel, value, deals);
                     }
                     else
-                        throw new AmPortfolioCoreException(Initiator, $"Parsing '{lastBlock}'", new($"PatternKey '{patternKey}' was not recognezed in the row '{rowId + 1}'"));
+                    {
+                        throw new AmPortfolioCoreException($"Parsing '{lastBlock}' by PatternKey '{patternKey}' was not recognezed in the row '{rowId + 1}'");
+                    }
                 }
             }
         }
@@ -196,7 +201,7 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.Asset))
-                throw new AmPortfolioCoreException(Initiator, nameof(GetEvents), new($"'Asset '{item.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException($"The Asset '{item.Asset}' was not recognized as derivative");
 
             var derivative = derivativeDictionary[item.Asset].First();
 
@@ -231,9 +236,9 @@ public sealed class BcsReportService : IBcsReportService
         foreach (var item in models)
         {
             if (!derivativeDictionary.ContainsKey(item.IncomeEvent.Asset))
-                throw new AmPortfolioCoreException(Initiator, nameof(GetDeals), new($"'Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException($"Income asset '{item.IncomeEvent.Asset}' was not recognized as derivative");
             if (!derivativeDictionary.ContainsKey(item.ExpenseEvent.Asset))
-                throw new AmPortfolioCoreException(Initiator, nameof(GetDeals), new($"'Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative"));
+                throw new AmPortfolioCoreException($"Expense asset '{item.ExpenseEvent.Asset}' was not recognized as derivative");
 
             var derivativeIncome = derivativeDictionary[item.IncomeEvent.Asset].First();
             var derivativeExpense = derivativeDictionary[item.ExpenseEvent.Asset].First();
@@ -271,20 +276,20 @@ public sealed class BcsReportService : IBcsReportService
     #region Events Parsers
     private static void ParseBalance(int rowId, IPortfolioExcelDocument excel, string value, Currencies? currency, List<BcsReportEventModel> events)
     {
-        var action = nameof(ParseBalance);
+        const string Action = nameof(ParseBalance);
 
         if (!BcsReportFileStructure.BalanceEvents.ContainsKey(value))
-            throw new AmPortfolioCoreException(Initiator, action, new($"Event type '{value}' not recognized"));
+            throw new AmPortfolioCoreException(Action + $" for the Event type '{value}' not recognized");
 
-        var eventData = BcsReportHelper.GetBalanceEventData(value, action);
+        var (EventType, ColumnNo) = BcsReportHelper.GetBalanceEventData(value, Action);
 
         events.Add(new()
         {
-            Asset = BcsReportHelper.GetCurrency(currency, action),
-            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, eventData.ColumnNo), action),
-            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action),
-            EventType = eventData.EventType,
-            Exchange = BcsReportHelper.GetExchange(rowId, excel, action)
+            Asset = BcsReportHelper.GetCurrency(currency, Action),
+            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, ColumnNo), Action),
+            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action),
+            EventType = EventType,
+            Exchange = BcsReportHelper.GetExchange(rowId, excel, Action)
         });
     }
     private static void ParseDividend(int rowId, IPortfolioExcelDocument excel, string value, Currencies? currency, List<BcsReportEventModel> events)
@@ -293,7 +298,7 @@ public sealed class BcsReportService : IBcsReportService
 
         var info = excel.GetCellValue(rowId, 14);
         if (info is null)
-            throw new AmPortfolioCoreException(Initiator, action, new("Description not found"));
+            throw new AmPortfolioCoreException(action + "for the Description not found");
 
         var _currency = BcsReportHelper.GetCurrency(currency, action);
         var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
@@ -329,36 +334,36 @@ public sealed class BcsReportService : IBcsReportService
     }
     private static void ParseComission(int rowId, IPortfolioExcelDocument excel, string value, Currencies? currency, List<BcsReportEventModel> events)
     {
-        var action = nameof(ParseComission);
+        const string Action = nameof(ParseComission);
 
         events.Add(new()
         {
-            Asset = BcsReportHelper.GetCurrency(currency, action),
-            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), action),
-            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action),
-            EventType = BcsReportHelper.GetComissionEventData(value, action),
-            Exchange = BcsReportHelper.GetExchange(rowId, excel, action)
+            Asset = BcsReportHelper.GetCurrency(currency, Action),
+            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), Action),
+            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action),
+            EventType = BcsReportHelper.GetComissionEventData(value, Action),
+            Exchange = BcsReportHelper.GetExchange(rowId, excel, Action)
         });
     }
     private static void ParseStockShare(int rowId, IPortfolioExcelDocument excel, string value, Currencies? currency, List<BcsReportEventModel> events)
     {
-        var action = nameof(ParseStockShare);
+        const string Action = nameof(ParseStockShare);
 
         events.Add(new()
         {
             Asset = value.Trim(),
-            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), action),
-            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 4), action),
-            Exchange = BcsReportHelper.GetExchange(rowId, excel, action),
+            Value = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), Action),
+            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 4), Action),
+            Exchange = BcsReportHelper.GetExchange(rowId, excel, Action),
             EventType = EventTypes.Donation
         });
     }
     private static void ParseStockSplit(int rowId, IPortfolioExcelDocument excel, string value, Currencies? currency, List<BcsReportEventModel> events)
     {
-        var action = nameof(ParseStockSplit);
+        const string Action = nameof(ParseStockSplit);
 
-        var valueBefore = BcsReportHelper.GetInteger(excel.GetCellValue(rowId, 6), action);
-        var valueAfter = BcsReportHelper.GetInteger(excel.GetCellValue(rowId, 7), action);
+        var valueBefore = BcsReportHelper.GetInteger(excel.GetCellValue(rowId, 6), Action);
+        var valueAfter = BcsReportHelper.GetInteger(excel.GetCellValue(rowId, 7), Action);
 
         var splitValue = valueAfter / valueBefore;
 
@@ -366,8 +371,8 @@ public sealed class BcsReportService : IBcsReportService
         {
             Asset = value.Trim(),
             Value = splitValue,
-            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 4), action),
-            Exchange = BcsReportHelper.GetExchange(rowId, excel, action),
+            Date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 4), Action),
+            Exchange = BcsReportHelper.GetExchange(rowId, excel, Action),
             EventType = EventTypes.Splitting
         });
     }
@@ -375,20 +380,20 @@ public sealed class BcsReportService : IBcsReportService
     #region Deals Parsers
     private static int ParseExchangeRate(int rowId, IPortfolioExcelDocument excel, string value, List<BcsReportDealModel> deals)
     {
-        var action = nameof(ParseExchangeRate);
+        const string Action = nameof(ParseExchangeRate);
 
         var currency = excel.GetCellValue(rowId, 1);
-        var (incomeCurrency, expenseCurrency) = BcsReportHelper.GetExchangeCurrencies(currency, action);
+        var (incomeCurrency, expenseCurrency) = BcsReportHelper.GetExchangeCurrencies(currency, Action);
 
         while (!excel.TryGetCellValue(++rowId, 1, $"Итого по {currency}:", out _))
         {
             var incomeValueString = excel.GetCellValue(rowId, 5);
             if (incomeValueString is not null)
             {
-                var incomeValue = BcsReportHelper.GetDecimal(incomeValueString, action);
-                var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
-                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action);
-                var decreasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 4), action);
+                var incomeValue = BcsReportHelper.GetDecimal(incomeValueString, Action);
+                var exchange = BcsReportHelper.GetExchange(rowId, excel, Action);
+                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action);
+                var decreasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 4), Action);
 
                 deals.Add(new()
                 {
@@ -414,10 +419,10 @@ public sealed class BcsReportService : IBcsReportService
             var expenseValueString = excel.GetCellValue(rowId, 8);
             if (expenseValueString is not null)
             {
-                var expenseValue = BcsReportHelper.GetDecimal(expenseValueString, action);
-                var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
-                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action);
-                var increasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), action);
+                var expenseValue = BcsReportHelper.GetDecimal(expenseValueString, Action);
+                var exchange = BcsReportHelper.GetExchange(rowId, excel, Action);
+                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action);
+                var increasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 7), Action);
 
                 deals.Add(new()
                 {
@@ -443,11 +448,11 @@ public sealed class BcsReportService : IBcsReportService
     }
     private static int ParseTransactions(int rowId, IPortfolioExcelDocument excel, string value, List<BcsReportDealModel> deals)
     {
-        var action = nameof(ParseTransactions);
+        const string Action = nameof(ParseTransactions);
 
         var isin = excel.GetCellValue(rowId, 7);
         if (isin is null)
-            throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("ISIN not recognized"));
+            throw new AmPortfolioCoreException(nameof(ParseTransactions) + " for the ISIN not recognized");
 
         var asset = excel.GetCellValue(rowId, 1);
 
@@ -456,21 +461,21 @@ public sealed class BcsReportService : IBcsReportService
             var incomeValueString = excel.GetCellValue(rowId, 4);
             if (incomeValueString is not null)
             {
-                var incomeValue = BcsReportHelper.GetDecimal(incomeValueString, action);
-                var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
-                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action);
+                var incomeValue = BcsReportHelper.GetDecimal(incomeValueString, Action);
+                var exchange = BcsReportHelper.GetExchange(rowId, excel, Action);
+                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action);
 
                 var currencyCode = excel.GetCellValue(rowId, 10);
                 if (currencyCode is null)
-                    throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
+                    throw new AmPortfolioCoreException(nameof(ParseTransactions) + " for the Currency not found");
                 var currencyName = currencyCode switch
                 {
-                    "USD" => Currencies.Usd.ToString(),
-                    "Рубль" => Currencies.Rub.ToString(),
-                    _ => throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not recognized"))
+                    "USD" => nameof(Currencies.Usd),
+                    "Рубль" => nameof(Currencies.Rub),
+                    _ => throw new AmPortfolioCoreException(nameof(ParseTransactions) + " for the Currency not recognized")
                 };
 
-                var decreasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 5), action);
+                var decreasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 5), Action);
 
                 deals.Add(new()
                 {
@@ -496,21 +501,21 @@ public sealed class BcsReportService : IBcsReportService
             var expenseValueString = excel.GetCellValue(rowId, 7);
             if (expenseValueString is not null)
             {
-                var expenseValue = BcsReportHelper.GetDecimal(expenseValueString, action);
-                var exchange = BcsReportHelper.GetExchange(rowId, excel, action);
-                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), action);
+                var expenseValue = BcsReportHelper.GetDecimal(expenseValueString, Action);
+                var exchange = BcsReportHelper.GetExchange(rowId, excel, Action);
+                var date = BcsReportHelper.GetDate(excel.GetCellValue(rowId, 1), Action);
 
                 var currencyCode = excel.GetCellValue(rowId, 10);
                 if (currencyCode is null)
-                    throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Currency not found"));
+                    throw new AmPortfolioCoreException(nameof(ParseTransactions) + " for the Currency not found");
                 var currencyName = currencyCode switch
                 {
-                    "USD" => Currencies.Usd.ToString(),
-                    "Рубль" => Currencies.Rub.ToString(),
-                    _ => throw new AmPortfolioCoreException(Initiator, nameof(ParseTransactions), new("Cirrency not recognized"))
+                    "USD" => nameof(Currencies.Usd),
+                    "Рубль" => nameof(Currencies.Rub),
+                    _ => throw new AmPortfolioCoreException(nameof(ParseTransactions) + " for the Cirrency not recognized")
                 };
 
-                var increasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 8), action);
+                var increasingValue = BcsReportHelper.GetDecimal(excel.GetCellValue(rowId, 8), Action);
 
                 deals.Add(new()
                 {

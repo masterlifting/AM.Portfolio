@@ -4,7 +4,7 @@ using AM.Portfolio.Core.Services.BcsServices.Interfaces;
 using AM.Portfolio.Worker.Exceptions;
 
 using Net.Shared.Background.Abstractions;
-using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
+using Net.Shared.Queues.Abstractions.Core.WorkQueue;
 
 using static Net.Shared.Persistence.Models.Constants.Enums;
 

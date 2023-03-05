@@ -15,9 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Net.Shared.Persistence.Abstractions.Contexts;
-using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
-using Net.Shared.Queues.Domain.WorkQueue;
-
+using Net.Shared.Queues.Abstractions.Core.WorkQueue;
+using Net.Shared.Queues.WorkQueue;
 using Polly;
 
 namespace AM.Portfolio.Infrastructure;

@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 using AM.Portfolio.Core.Abstractions.ExcelService;
 using AM.Portfolio.Core.Exceptions;
-using AM.Portfolio.Core.Services.BcsServices.Implementations.v1;
 using static AM.Portfolio.Core.Constants.Enums;
 using static AM.Shared.Models.Constants.Enums;
 
@@ -11,7 +10,6 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
     internal static partial class BcsReportHelper
     {
         private static readonly CultureInfo Culture = new("Ru-ru");
-        private const string Initiator = nameof(BcsReportService);
 
         internal static void CheckFile(string fileName, string action)
         {
@@ -20,7 +18,7 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             var match = MyRegex().Match(fileName);
 
             if (!match.Success)
-                throw new AmPortfolioCoreException(Initiator, action, new($"'File '{fileName}' was not recognized for the BCS"));
+                throw new AmPortfolioCoreException(action + $" for the File '{fileName}' was not recognized for the BCS");
         }
 
         internal static Dictionary<string, int> GetFileStructure(int rowId, IPortfolioExcelDocument excel)
@@ -45,7 +43,7 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             }
 
             return !result.Any()
-                ? throw new AmPortfolioCoreException(Initiator, nameof(GetFileStructure), new("The structure of the file was not recognized"))
+                ? throw new AmPortfolioCoreException(nameof(GetFileStructure) + " for the structure of the file was not recognized")
                 : result;
         }
         internal static string GetReportAgreement(int rowId, IPortfolioExcelDocument excel)
@@ -56,7 +54,7 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             var agreement = excel.GetCellValue(rowId, 5);
 
             return string.IsNullOrWhiteSpace(agreement)
-                ? throw new AmPortfolioCoreException(Initiator, nameof(GetReportAgreement), new("The agreement was not found"))
+                ? throw new AmPortfolioCoreException(nameof(GetReportAgreement) + " for the agreement was not found")
                 : agreement;
         }
         internal static (DateTime DateStart, DateTime DateEnd) GetReportPeriod(int rowId, IPortfolioExcelDocument excel)
@@ -69,7 +67,7 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             var period = excel.GetCellValue(rowId, 5);
 
             if (string.IsNullOrWhiteSpace(period))
-                throw new AmPortfolioCoreException(Initiator, action, new("The period was not found"));
+                throw new AmPortfolioCoreException(action + " for the period was not found");
 
             var periods = period.Split('\u0020');
 
@@ -81,10 +79,10 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             action = action + '.' + nameof(GetExchangeCurrencies);
 
             return value is null
-            ? throw new AmPortfolioCoreException(Initiator, action, new("Value not found"))
-            : BcsReportFileStructure.ExchangeCurrencies.ContainsKey(value)
-                ? BcsReportFileStructure.ExchangeCurrencies[value]
-                : throw new AmPortfolioCoreException(Initiator, action, new($"Value '{value}' was not recognized"));
+                ? throw new AmPortfolioCoreException(action + " for the Value not found")
+                : BcsReportFileStructure.ExchangeCurrencies.TryGetValue(value, out var key)
+                    ? key
+                    : throw new AmPortfolioCoreException(action + $" for the Value '{value}' was not recognized");
         }
         internal static Exchanges GetExchange(int rowId, IPortfolioExcelDocument excel, string action)
         {
@@ -97,40 +95,42 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
                 if (!string.IsNullOrEmpty(exchange)
                     && exchange != "0"
                     && !int.TryParse(exchange[0].ToString(), out _)
-                    && BcsReportFileStructure.ExchangeTypes.ContainsKey(exchange))
-                    return BcsReportFileStructure.ExchangeTypes[exchange];
+                    && BcsReportFileStructure.ExchangeTypes.TryGetValue(exchange, out var value))
+                {
+                    return value;
+                }
             }
 
-            throw new AmPortfolioCoreException(Initiator, action, new($"The exchange name was not recognized in the row number: {rowId + 1}"));
+            throw new AmPortfolioCoreException(action + $" for the exchange name was not recognized in the row number: {rowId + 1}");
         }
         internal static (EventTypes EventType, int ColumnNo) GetBalanceEventData(string value, string action)
         {
             action = action + '.' + nameof(GetBalanceEventData);
 
-            return BcsReportFileStructure.BalanceEvents.ContainsKey(value)
-                ? BcsReportFileStructure.BalanceEvents[value]
-                : throw new AmPortfolioCoreException(Initiator, action, new($"Event type '{value}' was not recognized"));
+            return BcsReportFileStructure.BalanceEvents.TryGetValue(value, out var key)
+                ? key
+                : throw new AmPortfolioCoreException(action + $" for the Event type '{value}' was not recognized");
         }
         internal static EventTypes GetComissionEventData(string value, string action)
         {
             action = action + '.' + nameof(GetComissionEventData);
 
-            return BcsReportFileStructure.ComissionEvents.ContainsKey(value)
-                ? BcsReportFileStructure.ComissionEvents[value]
-                : throw new AmPortfolioCoreException(Initiator, action, new($"Event type '{value}' was not recognized"));
+            return BcsReportFileStructure.ComissionEvents.TryGetValue(value, out var key)
+                ? key
+                : throw new AmPortfolioCoreException(action + $" for the Event type '{value}' was not recognized");
         }
 
         internal static string GetCurrency(Currencies? value, string action) => !value.HasValue
-            ? throw new AmPortfolioCoreException(Initiator, action + '.' + nameof(GetCurrency), new("Currency not found"))
+            ? throw new AmPortfolioCoreException(action + " for the Currency not found")
             : value.Value.ToString();
         internal static decimal GetDecimal(string? value, string action)
         {
             action = action + '.' + nameof(GetDecimal);
 
             return value is null
-            ? throw new AmPortfolioCoreException(Initiator + action + "Value not found")
+            ? throw new AmPortfolioCoreException(action + " for the Value not found")
                 : !decimal.TryParse(value, out var result)
-                ? throw new AmPortfolioCoreException(Initiator + action + "Value '{value}' was not recognized")
+                ? throw new AmPortfolioCoreException(action + $" for the Value '{value}' was not recognized")
             : result;
         }
         internal static int GetInteger(string? value, string action)
@@ -138,9 +138,9 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             action = action + '.' + nameof(GetInteger);
 
             return value is null
-            ? throw new AmPortfolioCoreException(Initiator, action, new("Value not found"))
+            ? throw new AmPortfolioCoreException(action + " for the Value not found")
                 : !int.TryParse(value, out var result)
-                ? throw new AmPortfolioCoreException(Initiator, action, new($"Value '{value}' was not recognized"))
+                ? throw new AmPortfolioCoreException(action + $" for the Value '{value}' was not recognized")
             : result;
         }
         internal static DateTime GetDate(string? value, string action)
@@ -148,9 +148,9 @@ namespace AM.Portfolio.Core.Services.BcsServices.Implementations.Helpers
             action = action + '.' + nameof(GetDate);
 
             return value is null
-            ? throw new AmPortfolioCoreException(Initiator, action, new("Value not found"))
+            ? throw new AmPortfolioCoreException(action + " for the Value not found")
                 : !DateTime.TryParse(value, Culture, DateTimeStyles.None, out var result)
-                ? throw new AmPortfolioCoreException(Initiator, action, new($"Value '{value}' was not recognized"))
+                ? throw new AmPortfolioCoreException(action + $" for the Value '{value}' was not recognized")
             : result;
         }
 

@@ -6,7 +6,7 @@ using AM.Portfolio.Worker.BackgroundTasksSteps;
 
 using Net.Shared.Background.BackgroundTasks;
 using Net.Shared.Background.Handlers;
-using Net.Shared.Queues.Abstractions.Domain.WorkQueue;
+using Net.Shared.Queues.Abstractions.Core.WorkQueue;
 
 using static AM.Portfolio.Core.Constants.Enums;
 
