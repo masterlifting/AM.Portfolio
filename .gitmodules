@@ -14,10 +14,6 @@
 	path = submodules/Net.Shared.Web
 	url = https://github.com/masterlifting/Net.Shared.Web
 	branch = feature-issue_1-designing
-[submodule "submodules/Net.Shared.Models"]
-	path = submodules/Net.Shared.Models
-	url = https://github.com/masterlifting/Net.Shared.Models
-	branch = feature-issue_1-designing
 [submodule "submodules/Net.Shared.Extensions"]
 	path = submodules/Net.Shared.Extensions
 	url = https://github.com/masterlifting/Net.Shared.Extensions

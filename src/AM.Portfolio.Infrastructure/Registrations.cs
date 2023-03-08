@@ -13,15 +13,14 @@ using AM.Portfolio.Infrastructure.WebClients;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using Net.Shared.Persistence.Abstractions.Contexts;
+using Net.Shared.Persistence.Abstractions.Core.Contexts;
 using Net.Shared.Queues.Abstractions.Core.WorkQueue;
 using Net.Shared.Queues.WorkQueue;
 using Polly;
 
 namespace AM.Portfolio.Infrastructure;
 
-public static partial class PortfolioServicesRegistration
+public static partial class Registrations
 {
     public static void AddPortfolioWorkerInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
@@ -45,7 +44,7 @@ public static partial class PortfolioServicesRegistration
     }
 }
 
-public static partial class PortfolioServicesRegistration
+public static partial class Registrations
 {
     private static void AddPortfolioLogic(this IServiceCollection services)
     {

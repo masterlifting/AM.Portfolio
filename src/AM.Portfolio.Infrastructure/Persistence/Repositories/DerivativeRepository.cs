@@ -2,9 +2,7 @@
 using AM.Portfolio.Core.Persistence.Entities.Sql;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
-using Net.Shared.Persistence.Abstractions.Contexts;
-
+using Net.Shared.Persistence.Abstractions.Core.Contexts;
 using Shared.Persistence.Repositories;
 
 using static AM.Shared.Abstractions.Constants.Enums;

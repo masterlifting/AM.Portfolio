@@ -1,6 +1,5 @@
 ﻿using AM.Portfolio.Core.Abstractions.Persistence.Repositories;
-
-using Net.Shared.Persistence.Abstractions.Contexts;
+using Net.Shared.Persistence.Abstractions.Core.Contexts;
 
 namespace AM.Portfolio.Core.Abstractions.Persistence
 {
